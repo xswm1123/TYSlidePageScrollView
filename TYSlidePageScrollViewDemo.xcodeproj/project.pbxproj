@@ -14,6 +14,10 @@
 		D36FA1431B57341F0040F866 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D36FA1421B57341F0040F866 /* Images.xcassets */; };
 		D36FA1461B57341F0040F866 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D36FA1441B57341F0040F866 /* LaunchScreen.xib */; };
 		D36FA1521B57341F0040F866 /* TYSlidePageScrollViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1511B57341F0040F866 /* TYSlidePageScrollViewDemoTests.m */; };
+		D36FA15E1B5734DC0040F866 /* TYSlidePageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA15D1B5734DC0040F866 /* TYSlidePageScrollView.m */; };
+		D36FA1611B573D630040F866 /* TYBasePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1601B573D630040F866 /* TYBasePageTabBar.m */; };
+		D36FA1641B5757CE0040F866 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1631B5757CE0040F866 /* TableViewController.m */; };
+		D36FA1661B575C400040F866 /* CYLoLi.png in Resources */ = {isa = PBXBuildFile; fileRef = D36FA1651B575C400040F866 /* CYLoLi.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,13 @@
 		D36FA14B1B57341F0040F866 /* TYSlidePageScrollViewDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TYSlidePageScrollViewDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36FA1501B57341F0040F866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D36FA1511B57341F0040F866 /* TYSlidePageScrollViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYSlidePageScrollViewDemoTests.m; sourceTree = "<group>"; };
+		D36FA15C1B5734DC0040F866 /* TYSlidePageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYSlidePageScrollView.h; sourceTree = "<group>"; };
+		D36FA15D1B5734DC0040F866 /* TYSlidePageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYSlidePageScrollView.m; sourceTree = "<group>"; };
+		D36FA15F1B573D630040F866 /* TYBasePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYBasePageTabBar.h; sourceTree = "<group>"; };
+		D36FA1601B573D630040F866 /* TYBasePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYBasePageTabBar.m; sourceTree = "<group>"; };
+		D36FA1621B5757CE0040F866 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		D36FA1631B5757CE0040F866 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		D36FA1651B575C400040F866 /* CYLoLi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CYLoLi.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +97,8 @@
 				D36FA13A1B57341F0040F866 /* AppDelegate.m */,
 				D36FA13C1B57341F0040F866 /* ViewController.h */,
 				D36FA13D1B57341F0040F866 /* ViewController.m */,
+				D36FA1621B5757CE0040F866 /* TableViewController.h */,
+				D36FA1631B5757CE0040F866 /* TableViewController.m */,
 				D36FA13F1B57341F0040F866 /* Main.storyboard */,
 				D36FA1421B57341F0040F866 /* Images.xcassets */,
 				D36FA1441B57341F0040F866 /* LaunchScreen.xib */,
@@ -97,6 +110,7 @@
 		D36FA1351B57341F0040F866 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D36FA1651B575C400040F866 /* CYLoLi.png */,
 				D36FA1361B57341F0040F866 /* Info.plist */,
 				D36FA1371B57341F0040F866 /* main.m */,
 			);
@@ -123,6 +137,10 @@
 		D36FA15B1B57343D0040F866 /* TYSlidePageScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				D36FA15C1B5734DC0040F866 /* TYSlidePageScrollView.h */,
+				D36FA15D1B5734DC0040F866 /* TYSlidePageScrollView.m */,
+				D36FA15F1B573D630040F866 /* TYBasePageTabBar.h */,
+				D36FA1601B573D630040F866 /* TYBasePageTabBar.m */,
 			);
 			path = TYSlidePageScrollView;
 			sourceTree = "<group>";
@@ -208,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D36FA1411B57341F0040F866 /* Main.storyboard in Resources */,
+				D36FA1661B575C400040F866 /* CYLoLi.png in Resources */,
 				D36FA1461B57341F0040F866 /* LaunchScreen.xib in Resources */,
 				D36FA1431B57341F0040F866 /* Images.xcassets in Resources */,
 			);
@@ -227,9 +246,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D36FA1611B573D630040F866 /* TYBasePageTabBar.m in Sources */,
+				D36FA1641B5757CE0040F866 /* TableViewController.m in Sources */,
 				D36FA13E1B57341F0040F866 /* ViewController.m in Sources */,
 				D36FA13B1B57341F0040F866 /* AppDelegate.m in Sources */,
 				D36FA1381B57341F0040F866 /* main.m in Sources */,
+				D36FA15E1B5734DC0040F866 /* TYSlidePageScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +448,7 @@
 				D36FA1571B57341F0040F866 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D36FA1581B57341F0040F866 /* Build configuration list for PBXNativeTarget "TYSlidePageScrollViewDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -434,6 +457,7 @@
 				D36FA15A1B57341F0040F866 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
