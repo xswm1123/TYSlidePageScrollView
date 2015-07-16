@@ -81,6 +81,7 @@
 		D36FA1341B57341F0040F866 /* TYSlidePageScrollViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D36FA15B1B57343D0040F866 /* TYSlidePageScrollView */,
 				D36FA1391B57341F0040F866 /* AppDelegate.h */,
 				D36FA13A1B57341F0040F866 /* AppDelegate.m */,
 				D36FA13C1B57341F0040F866 /* ViewController.h */,
@@ -117,6 +118,13 @@
 				D36FA1501B57341F0040F866 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D36FA15B1B57343D0040F866 /* TYSlidePageScrollView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TYSlidePageScrollView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
