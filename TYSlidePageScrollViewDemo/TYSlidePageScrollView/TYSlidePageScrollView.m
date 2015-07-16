@@ -55,6 +55,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
+    _changeToNextIndexWhenScrollWidthPercent = 0.4;
 }
 
 - (void)resetPropertys
@@ -229,7 +230,7 @@
         [_delegate slidePageScrollView:self scrollViewDidScroll:_horScrollView];
     }
 
-    NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + 0.4);
+    NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + _changeToNextIndexWhenScrollWidthPercent);
     if (_curPageIndex != index) {
         [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:index];
         _curPageIndex = index;
