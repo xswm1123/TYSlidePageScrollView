@@ -12,6 +12,7 @@
 
 @interface ViewController ()<TYSlidePageScrollViewDataSource>
 @property (nonatomic, weak) TYSlidePageScrollView *slidePageScrollView;
+@property (nonatomic ,strong) UIButton *selectBtn;
 @end
 
 @implementation ViewController
@@ -28,11 +29,13 @@
     
     [self addTableView:6];
     
-    [self addTableView:12];
+    [self addTableView:14];
     
     [self addTableView:18];
     
     [_slidePageScrollView reloadData];
+    
+    [self tabButtonClicked:_selectBtn];
 }
 
 - (void)addSlidePageScrollView
@@ -62,8 +65,12 @@
         [button setTitle:[NSString stringWithFormat:@"tabIndex%d",i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
-        //[button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [tabPageMenu addSubview:button];
+        
+        if (i == 0) {
+            _selectBtn = button;
+        }
     }
     _slidePageScrollView.pageTabBar = tabPageMenu;
 }
@@ -74,6 +81,17 @@
     tableViewVC.num =num;
     // you should addChildViewController, but you can not that if you understand .
     [self addChildViewController:tableViewVC];
+}
+
+- (void)tabButtonClicked:(UIButton *)button
+{
+    if (_selectBtn) {
+        _selectBtn.selected = NO;
+    }
+    button.selected = YES;
+    _selectBtn = button;
+    
+    [_slidePageScrollView scrollToPageIndex:button.tag nimated:YES];
 }
 
 #pragma mark - dataSource

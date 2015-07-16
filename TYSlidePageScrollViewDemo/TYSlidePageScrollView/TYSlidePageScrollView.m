@@ -8,11 +8,18 @@
 
 #import "TYSlidePageScrollView.h"
 
-@interface TYSlidePageScrollView ()<UIScrollViewDelegate>
+@interface TYSlidePageScrollView ()<UIScrollViewDelegate>{
+    struct {
+        unsigned int scrollToPageIndex   :1;
+        unsigned int scrollViewDidScroll :1;
+        unsigned int scrollViewDidEndDecelerating :1;
+    }_delegateFlags;
+}
+
 @property (nonatomic, weak) UIScrollView    *horScrollView;     // horizen scroll View
 @property (nonatomic, weak) UIView          *headerContentView; // contain header and pageTab
 
-@property (nonatomic, strong) NSArray       *pageViewArray;
+@property (nonatomic, strong) NSArray       *pageScrollViewArray;
 
 @end
 
@@ -56,8 +63,17 @@
     _curPageIndex = 0;
     [_headerContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_footerView removeFromSuperview];
-    [_pageViewArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    _pageViewArray = nil;
+    [_pageScrollViewArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    _pageScrollViewArray = nil;
+}
+
+- (void)setDelegate:(id<TYSlidePageScrollViewDelegate>)delegate
+{
+    _delegate = delegate;
+    
+    _delegateFlags.scrollToPageIndex = [delegate respondsToSelector:@selector(slidePageScrollView:scrollToPageIndex:)];
+    _delegateFlags.scrollViewDidScroll = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewDidScroll:)];
+    _delegateFlags.scrollViewDidEndDecelerating = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewDidEndDecelerating:)];
 }
 
 #pragma mark - add subView
@@ -130,7 +146,7 @@
         [scrollViewArray addObject:pageVerScrollView];
     }
     
-    _pageViewArray = [scrollViewArray copy];
+    _pageScrollViewArray = [scrollViewArray copy];
     _horScrollView.contentSize = CGSizeMake(viewWidth*pageNum, 0);
 }
 
@@ -140,11 +156,11 @@
         return;
     }
     
-    if (oldIndex >= 0 && oldIndex < _pageViewArray.count) {
-        [_pageViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
+    if (oldIndex >= 0 && oldIndex < _pageScrollViewArray.count) {
+        [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
     }
-    if (newIndex >= 0 && newIndex < _pageViewArray.count) {
-        [_pageViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    if (newIndex >= 0 && newIndex < _pageScrollViewArray.count) {
+        [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
@@ -157,7 +173,7 @@
 
 - (void)changeAllPageScrollViewOffsetY:(CGFloat)offsetY
 {
-    [_pageViewArray enumerateObjectsUsingBlock:^(UIScrollView *pageScrollView, NSUInteger idx, BOOL *stop) {
+    [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *pageScrollView, NSUInteger idx, BOOL *stop) {
         if (idx != _curPageIndex) {
             pageScrollView.contentOffset = CGPointMake(pageScrollView.contentOffset.x, offsetY);
         }
@@ -179,15 +195,47 @@
     [self addPageViewKeyPathWithOldIndex:-1 newIndex:_curPageIndex];
 }
 
+- (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated
+{
+    if (index < 0 || index >= _pageScrollViewArray.count) {
+        NSLog(@"scrollToPageIndex index illegal");
+        return;
+    }
+    
+    [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
+}
+
+- (UIScrollView *)pageScrollViewForIndex:(NSInteger)index
+{
+    if (index < 0 || index >= _pageScrollViewArray.count) {
+        NSLog(@"scrollToPageIndex index illegal");
+        return nil;
+    }
+    
+    return _pageScrollViewArray[index];
+}
+
+- (NSInteger)indexOfPageScrollView:(UIScrollView *)pageScrollView
+{
+    return [_pageScrollViewArray indexOfObject:pageScrollView];
+}
+
 #pragma mark - delegate
 
 // horizen scrollView
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (_delegateFlags.scrollViewDidScroll) {
+        [_delegate slidePageScrollView:self scrollViewDidScroll:_horScrollView];
+    }
+
     NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + 0.4);
     if (_curPageIndex != index) {
         [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:index];
         _curPageIndex = index;
+        if (_delegateFlags.scrollToPageIndex) {
+            [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
+        }
         NSLog(@"index %ld",_curPageIndex);
     }
 }
@@ -224,6 +272,18 @@
         }
     }
 
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (_delegateFlags.scrollViewDidEndDecelerating) {
+        [_delegate slidePageScrollView:self scrollViewDidEndDecelerating:_horScrollView];
+    }
+}
+
+-(void)dealloc
+{
+    [self resetPropertys];
 }
 
 @end

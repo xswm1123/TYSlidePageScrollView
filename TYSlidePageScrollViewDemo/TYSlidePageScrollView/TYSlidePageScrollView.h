@@ -21,9 +21,24 @@
 
 @end
 
+@protocol TYSlidePageScrollViewDelegate <NSObject>
+
+@optional
+// horizen scroll to pageIndex, when index change will call
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollToPageIndex:(NSInteger)index;
+
+// horizen scroll any offset changes will call
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewDidScroll:(UIScrollView *)scrollView;
+
+// horizen scroll called when scroll view grinds to a halt
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+
+@end
+
 @interface TYSlidePageScrollView : UIView
 
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDataSource> dataSource;
+@property (nonatomic, weak)   id<TYSlidePageScrollViewDelegate> delegate;
 
 @property (nonatomic, strong) UIView *headerView;
 
@@ -35,5 +50,11 @@
 
 
 - (void)reloadData;
+
+- (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated;
+
+- (UIScrollView *)pageScrollViewForIndex:(NSInteger)index;
+
+- (NSInteger)indexOfPageScrollView:(UIScrollView *)pageScrollView;
 
 @end
