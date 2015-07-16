@@ -8,7 +8,11 @@
 
 #import "TYSlidePageScrollView.h"
 
-@interface TYSlidePageScrollView ()<UIScrollViewDelegate>{
+@interface TYBasePageTabBar ()
+@property (nonatomic, weak) id<TYBasePageTabBarPrivateDelegate> praviteDelegate;
+@end
+
+@interface TYSlidePageScrollView ()<UIScrollViewDelegate,TYBasePageTabBarPrivateDelegate>{
     struct {
         unsigned int scrollToPageIndex   :1;
         unsigned int scrollViewDidScroll :1;
@@ -110,6 +114,7 @@
     }
     
     if (_pageTabBar) {
+        _pageTabBar.praviteDelegate = self;
         _pageTabBar.frame = CGRectMake(0, headerContentViewHieght, viewWidth, CGRectGetHeight(_pageTabBar.frame));
         [_headerContentView addSubview:_pageTabBar];
         headerContentViewHieght += CGRectGetHeight(_pageTabBar.frame);
@@ -234,6 +239,9 @@
     if (_curPageIndex != index) {
         [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:index];
         _curPageIndex = index;
+        if (_pageTabBar) {
+            [_pageTabBar switchToPageIndex:_curPageIndex];
+        }
         if (_delegateFlags.scrollToPageIndex) {
             [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
         }
@@ -280,6 +288,11 @@
     if (_delegateFlags.scrollViewDidEndDecelerating) {
         [_delegate slidePageScrollView:self scrollViewDidEndDecelerating:_horScrollView];
     }
+}
+
+- (void)basePageTabBar:(TYBasePageTabBar *)basePageTabBar clickedPageTabBarAtIndex:(NSInteger)index
+{
+    [self scrollToPageIndex:index nimated:YES];
 }
 
 -(void)dealloc

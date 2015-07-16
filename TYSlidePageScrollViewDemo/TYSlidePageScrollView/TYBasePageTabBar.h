@@ -8,8 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class TYBasePageTabBar;
+@protocol TYBasePageTabBarPrivateDelegate <NSObject>
+
+- (void)basePageTabBar:(TYBasePageTabBar *)basePageTabBar clickedPageTabBarAtIndex:(NSInteger)index;
+
+@end
+
+// custom pageTabBar inherit it
 @interface TYBasePageTabBar : UIView
 
+// when clicked pageTabBar index, must /*Ourself*/ call to change TYSlidePageScrollView index
+- (void)clickedPageTabBarAtIndex:(NSInteger)index;
 
+// override, auto call ,when TYSlidePageScrollView index change;
+- (void)switchToPageIndex:(NSInteger)index;
 
 @end

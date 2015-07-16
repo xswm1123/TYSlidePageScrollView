@@ -40,11 +40,11 @@
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDataSource> dataSource;
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDelegate> delegate;
 
-@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UIView *headerView; // defult nil
 
-@property (nonatomic, strong) TYBasePageTabBar *pageTabBar;  //need inherit TYBasePageTabBar
+@property (nonatomic, strong) TYBasePageTabBar *pageTabBar; //defult nil 
 
-@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UIView *footerView; // defult nil
 
 @property (nonatomic, assign, readonly) NSInteger curPageIndex;
 
