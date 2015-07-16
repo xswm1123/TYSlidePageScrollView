@@ -18,6 +18,7 @@
 		D36FA1611B573D630040F866 /* TYBasePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1601B573D630040F866 /* TYBasePageTabBar.m */; };
 		D36FA1641B5757CE0040F866 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1631B5757CE0040F866 /* TableViewController.m */; };
 		D36FA1661B575C400040F866 /* CYLoLi.png in Resources */ = {isa = PBXBuildFile; fileRef = D36FA1651B575C400040F866 /* CYLoLi.png */; };
+		D36FA1691B5791490040F866 /* TYTitlePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		D36FA1621B5757CE0040F866 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		D36FA1631B5757CE0040F866 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D36FA1651B575C400040F866 /* CYLoLi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CYLoLi.png; sourceTree = "<group>"; };
+		D36FA1671B5791490040F866 /* TYTitlePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTitlePageTabBar.h; sourceTree = "<group>"; };
+		D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTitlePageTabBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +144,8 @@
 				D36FA15D1B5734DC0040F866 /* TYSlidePageScrollView.m */,
 				D36FA15F1B573D630040F866 /* TYBasePageTabBar.h */,
 				D36FA1601B573D630040F866 /* TYBasePageTabBar.m */,
+				D36FA1671B5791490040F866 /* TYTitlePageTabBar.h */,
+				D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */,
 			);
 			path = TYSlidePageScrollView;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				D36FA13B1B57341F0040F866 /* AppDelegate.m in Sources */,
 				D36FA1381B57341F0040F866 /* main.m in Sources */,
 				D36FA15E1B5734DC0040F866 /* TYSlidePageScrollView.m in Sources */,
+				D36FA1691B5791490040F866 /* TYTitlePageTabBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TYSlidePageScrollViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -390,6 +397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TYSlidePageScrollViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

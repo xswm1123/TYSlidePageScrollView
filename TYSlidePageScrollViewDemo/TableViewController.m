@@ -34,14 +34,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _num;
+    return _itemNum;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"Objective-C是基于C语言 index %ld",indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"page %ld Objective-C是基于C语言 %ld",(long)_page,(long)indexPath.row];
     
     return cell;
 }

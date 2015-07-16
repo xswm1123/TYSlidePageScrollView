@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "TYSlidePageScrollView.h"
 #import "TableViewController.h"
+#import "TYTitlePageTabBar.h"
 
 @interface ViewController ()<TYSlidePageScrollViewDataSource>
 @property (nonatomic, weak) TYSlidePageScrollView *slidePageScrollView;
@@ -27,15 +28,19 @@
     
     [self addTabPageMenu];
     
-    [self addTableView:6];
+    [self addTableViewWithPage:0 itemNum:12];
     
-    [self addTableView:14];
+    [self addTableViewWithPage:1 itemNum:14];
     
-    [self addTableView:18];
+    [self addTableViewWithPage:2 itemNum:16];
+    
+    [self addTableViewWithPage:3 itemNum:12];
     
     [_slidePageScrollView reloadData];
     
-    [self tabButtonClicked:_selectBtn];
+    //[_slidePageScrollView scrollToPageIndex:0 nimated:NO];
+    
+    //[self tabButtonClicked:_selectBtn];
 }
 
 - (void)addSlidePageScrollView
@@ -55,6 +60,16 @@
 
 - (void)addTabPageMenu
 {
+    TYTitlePageTabBar *titlePageTabBar = [[TYTitlePageTabBar alloc]initWithTitleArray:@[@"简介",@"课程",@"评论",@"答疑"]];
+    titlePageTabBar.frame = CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40);
+    titlePageTabBar.backgroundColor = [UIColor lightGrayColor];
+    _slidePageScrollView.pageTabBar = titlePageTabBar;
+}
+
+
+/*** second way to add
+- (void)addTabPageMenu
+{
     TYBasePageTabBar *tabPageMenu = [[TYBasePageTabBar alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40)];
     tabPageMenu.backgroundColor = [UIColor lightGrayColor];
     for (int i = 0; i < 3; ++i) {
@@ -72,15 +87,7 @@
             _selectBtn = button;
         }
     }
-    _slidePageScrollView.pageTabBar = tabPageMenu;
-}
-
-- (void)addTableView:(NSInteger)num
-{
-    TableViewController *tableViewVC = [[TableViewController alloc]init];
-    tableViewVC.num =num;
-    // you should addChildViewController, but you can not that if you understand .
-    [self addChildViewController:tableViewVC];
+  _slidePageScrollView.pageTabBar = tabPageMenu;
 }
 
 - (void)tabButtonClicked:(UIButton *)button
@@ -90,8 +97,18 @@
     }
     button.selected = YES;
     _selectBtn = button;
-    
+        
     [_slidePageScrollView scrollToPageIndex:button.tag nimated:YES];
+}
+ ***/
+
+- (void)addTableViewWithPage:(NSInteger)page itemNum:(NSInteger)num
+{
+    TableViewController *tableViewVC = [[TableViewController alloc]init];
+    tableViewVC.itemNum = num;
+    tableViewVC.page = page;
+    // you should addChildViewController, but you can not that if you understand .
+    [self addChildViewController:tableViewVC];
 }
 
 #pragma mark - dataSource

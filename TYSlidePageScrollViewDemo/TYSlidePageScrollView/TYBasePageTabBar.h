@@ -15,7 +15,7 @@
 
 @end
 
-// custom pageTabBar inherit it
+// Fully customizable pageTabBar inherit it
 @interface TYBasePageTabBar : UIView
 
 // when clicked pageTabBar index, must /*Ourself*/ call to change TYSlidePageScrollView index

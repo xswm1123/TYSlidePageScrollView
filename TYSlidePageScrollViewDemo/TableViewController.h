@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TableViewController : UITableViewController
-@property (nonatomic ,assign) NSInteger num;
+@property (nonatomic ,assign) NSInteger itemNum;
+@property (nonatomic ,assign) NSInteger page;
 @end

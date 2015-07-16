@@ -59,7 +59,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
-    _changeToNextIndexWhenScrollWidthPercent = 0.4;
+    _changeToNextIndexWhenScrollWidthPercent = 0.5;
 }
 
 - (void)resetPropertys
@@ -209,6 +209,9 @@
     }
     
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
+//    CGFloat viewWidth = CGRectGetWidth(_horScrollView.frame);
+//    CGRect cellVisibleFrame  = CGRectMake(index * viewWidth, 0, viewWidth, CGRectGetHeight(_horScrollView.frame));
+//    [_horScrollView scrollRectToVisible:cellVisibleFrame animated:animated];
 }
 
 - (UIScrollView *)pageScrollViewForIndex:(NSInteger)index
@@ -234,9 +237,16 @@
     if (_delegateFlags.scrollViewDidScroll) {
         [_delegate slidePageScrollView:self scrollViewDidScroll:_horScrollView];
     }
-
+    
     NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + _changeToNextIndexWhenScrollWidthPercent);
+    
     if (_curPageIndex != index) {
+        if (index >= _pageScrollViewArray.count) {
+            index = _pageScrollViewArray.count-1;
+        }
+        if (index < 0) {
+            index = 0;
+        }
         [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:index];
         _curPageIndex = index;
         if (_pageTabBar) {
@@ -292,7 +302,7 @@
 
 - (void)basePageTabBar:(TYBasePageTabBar *)basePageTabBar clickedPageTabBarAtIndex:(NSInteger)index
 {
-    [self scrollToPageIndex:index nimated:YES];
+    [self scrollToPageIndex:index nimated:NO];
 }
 
 -(void)dealloc
