@@ -7,6 +7,7 @@
 //
 
 #import "TableViewController.h"
+#import "MJRefresh.h"
 
 @interface TableViewController ()
 
@@ -23,6 +24,25 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    __typeof (self) __weak weakSelf = self;
+    
+    [self.tableView addFooterWithCallback:^{
+        [weakSelf delayInSeconds:2.0 block:^{
+            [weakSelf.tableView footerEndRefreshing];
+        }];
+    }];
+    
+    [self.tableView addHeaderWithCallback:^{
+        [weakSelf delayInSeconds:2.0 block:^{
+            [weakSelf.tableView headerEndRefreshing];
+        }];
+    }];
+}
+
+- (void)delayInSeconds:(CGFloat)delayInSeconds block:(dispatch_block_t) block
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC),  dispatch_get_main_queue(), block);
 }
 
 - (void)didReceiveMemoryWarning {

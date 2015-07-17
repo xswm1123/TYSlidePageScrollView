@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.viewControllers = @[[self creatViewControllerPage:0 itemNum:8],[self creatViewControllerPage:1 itemNum:12],[self creatViewControllerPage:2 itemNum:16],[self creatViewControllerPage:3 itemNum:12]];
+    self.viewControllers = @[[self creatViewControllerPage:0 itemNum:5],[self creatViewControllerPage:1 itemNum:12],[self creatViewControllerPage:2 itemNum:16],[self creatViewControllerPage:3 itemNum:12]];
     
     self.slidePageScrollView.pageTabBarStopOnTopHeight = 20;
     [self addHeaderView];

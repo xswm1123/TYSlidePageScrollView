@@ -16,7 +16,7 @@
 // num of pageViews
 - (NSInteger)numberOfPageViewOnSlidePageScrollView;
 
-// pageView need inherit UIScrollView (UITableview inherit it) ,and vertical scroll 
+// pageView need inherit UIScrollView (UITableview inherit it) ,and vertical scroll
 - (UIScrollView *)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageVerticalScrollViewForIndex:(NSInteger)index;
 
 @end
@@ -48,7 +48,7 @@
 
 @property (nonatomic, assign) BOOL pageTabBarIsStopOnTop;  // default YES, is stop on top
 
-@property (nonatomic, assign) CGFloat pageTabBarStopOnTopHeight; // bageTabBar stop on top height, if pageTabBarIsStopOnTop is NO ,this property is inValid
+@property (nonatomic, assign) CGFloat pageTabBarStopOnTopHeight; // default 0, bageTabBar stop on top height, if pageTabBarIsStopOnTop is NO ,this property is inValid
 
 @property (nonatomic, strong) UIView *footerView; // defult nil
 

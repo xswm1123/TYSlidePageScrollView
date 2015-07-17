@@ -21,6 +21,15 @@
 		D36FA1691B5791490040F866 /* TYTitlePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */; };
 		D38B4A131B588BAE0085B5D8 /* TYSlidePageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */; };
 		D38B4A1A1B58A3980085B5D8 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A191B58A3980085B5D8 /* CustomViewController.m */; };
+		D38B4A891B58F7A20085B5D8 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D38B4A791B58F7A20085B5D8 /* MJRefresh.bundle */; };
+		D38B4A8A1B58F7A20085B5D8 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A7C1B58F7A20085B5D8 /* MJRefreshBaseView.m */; };
+		D38B4A8B1B58F7A20085B5D8 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A7E1B58F7A20085B5D8 /* MJRefreshConst.m */; };
+		D38B4A8C1B58F7A20085B5D8 /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A801B58F7A20085B5D8 /* MJRefreshFooterView.m */; };
+		D38B4A8D1B58F7A20085B5D8 /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A821B58F7A20085B5D8 /* MJRefreshHeaderView.m */; };
+		D38B4A8E1B58F7A20085B5D8 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A841B58F7A20085B5D8 /* UIScrollView+MJExtension.m */; };
+		D38B4A8F1B58F7A20085B5D8 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A861B58F7A20085B5D8 /* UIScrollView+MJRefresh.m */; };
+		D38B4A901B58F7A20085B5D8 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A881B58F7A20085B5D8 /* UIView+MJExtension.m */; };
+		D38B4A931B58F7B70085B5D8 /* ECircleLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A921B58F7B70085B5D8 /* ECircleLoadingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +69,24 @@
 		D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYSlidePageScrollViewController.m; sourceTree = "<group>"; };
 		D38B4A181B58A3980085B5D8 /* CustomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
 		D38B4A191B58A3980085B5D8 /* CustomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomViewController.m; sourceTree = "<group>"; };
+		D38B4A791B58F7A20085B5D8 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
+		D38B4A7A1B58F7A20085B5D8 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
+		D38B4A7B1B58F7A20085B5D8 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
+		D38B4A7C1B58F7A20085B5D8 /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
+		D38B4A7D1B58F7A20085B5D8 /* MJRefreshConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshConst.h; sourceTree = "<group>"; };
+		D38B4A7E1B58F7A20085B5D8 /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
+		D38B4A7F1B58F7A20085B5D8 /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
+		D38B4A801B58F7A20085B5D8 /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
+		D38B4A811B58F7A20085B5D8 /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
+		D38B4A821B58F7A20085B5D8 /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		D38B4A831B58F7A20085B5D8 /* UIScrollView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJExtension.h"; sourceTree = "<group>"; };
+		D38B4A841B58F7A20085B5D8 /* UIScrollView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJExtension.m"; sourceTree = "<group>"; };
+		D38B4A851B58F7A20085B5D8 /* UIScrollView+MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJRefresh.h"; sourceTree = "<group>"; };
+		D38B4A861B58F7A20085B5D8 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
+		D38B4A871B58F7A20085B5D8 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
+		D38B4A881B58F7A20085B5D8 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		D38B4A911B58F7B70085B5D8 /* ECircleLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECircleLoadingView.h; sourceTree = "<group>"; };
+		D38B4A921B58F7B70085B5D8 /* ECircleLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECircleLoadingView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +128,7 @@
 		D36FA1341B57341F0040F866 /* TYSlidePageScrollViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D38B4A1B1B58EE780085B5D8 /* Tool */,
 				D36FA15B1B57343D0040F866 /* TYSlidePageScrollView */,
 				D36FA1391B57341F0040F866 /* AppDelegate.h */,
 				D36FA13A1B57341F0040F866 /* AppDelegate.m */,
@@ -158,6 +186,39 @@
 				D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */,
 			);
 			path = TYSlidePageScrollView;
+			sourceTree = "<group>";
+		};
+		D38B4A1B1B58EE780085B5D8 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				D38B4A781B58F7A20085B5D8 /* MJRefresh */,
+			);
+			name = Tool;
+			sourceTree = "<group>";
+		};
+		D38B4A781B58F7A20085B5D8 /* MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				D38B4A911B58F7B70085B5D8 /* ECircleLoadingView.h */,
+				D38B4A921B58F7B70085B5D8 /* ECircleLoadingView.m */,
+				D38B4A791B58F7A20085B5D8 /* MJRefresh.bundle */,
+				D38B4A7A1B58F7A20085B5D8 /* MJRefresh.h */,
+				D38B4A7B1B58F7A20085B5D8 /* MJRefreshBaseView.h */,
+				D38B4A7C1B58F7A20085B5D8 /* MJRefreshBaseView.m */,
+				D38B4A7D1B58F7A20085B5D8 /* MJRefreshConst.h */,
+				D38B4A7E1B58F7A20085B5D8 /* MJRefreshConst.m */,
+				D38B4A7F1B58F7A20085B5D8 /* MJRefreshFooterView.h */,
+				D38B4A801B58F7A20085B5D8 /* MJRefreshFooterView.m */,
+				D38B4A811B58F7A20085B5D8 /* MJRefreshHeaderView.h */,
+				D38B4A821B58F7A20085B5D8 /* MJRefreshHeaderView.m */,
+				D38B4A831B58F7A20085B5D8 /* UIScrollView+MJExtension.h */,
+				D38B4A841B58F7A20085B5D8 /* UIScrollView+MJExtension.m */,
+				D38B4A851B58F7A20085B5D8 /* UIScrollView+MJRefresh.h */,
+				D38B4A861B58F7A20085B5D8 /* UIScrollView+MJRefresh.m */,
+				D38B4A871B58F7A20085B5D8 /* UIView+MJExtension.h */,
+				D38B4A881B58F7A20085B5D8 /* UIView+MJExtension.m */,
+			);
+			path = MJRefresh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +304,7 @@
 				D36FA1411B57341F0040F866 /* Main.storyboard in Resources */,
 				D36FA1661B575C400040F866 /* CYLoLi.png in Resources */,
 				D36FA1461B57341F0040F866 /* LaunchScreen.xib in Resources */,
+				D38B4A891B58F7A20085B5D8 /* MJRefresh.bundle in Resources */,
 				D36FA1431B57341F0040F866 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,14 +323,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D38B4A8C1B58F7A20085B5D8 /* MJRefreshFooterView.m in Sources */,
+				D38B4A931B58F7B70085B5D8 /* ECircleLoadingView.m in Sources */,
 				D36FA1611B573D630040F866 /* TYBasePageTabBar.m in Sources */,
+				D38B4A8E1B58F7A20085B5D8 /* UIScrollView+MJExtension.m in Sources */,
 				D36FA1641B5757CE0040F866 /* TableViewController.m in Sources */,
 				D36FA13E1B57341F0040F866 /* ViewController.m in Sources */,
 				D36FA13B1B57341F0040F866 /* AppDelegate.m in Sources */,
 				D38B4A1A1B58A3980085B5D8 /* CustomViewController.m in Sources */,
+				D38B4A901B58F7A20085B5D8 /* UIView+MJExtension.m in Sources */,
 				D36FA1381B57341F0040F866 /* main.m in Sources */,
+				D38B4A8F1B58F7A20085B5D8 /* UIScrollView+MJRefresh.m in Sources */,
 				D36FA15E1B5734DC0040F866 /* TYSlidePageScrollView.m in Sources */,
 				D36FA1691B5791490040F866 /* TYTitlePageTabBar.m in Sources */,
+				D38B4A8B1B58F7A20085B5D8 /* MJRefreshConst.m in Sources */,
+				D38B4A8A1B58F7A20085B5D8 /* MJRefreshBaseView.m in Sources */,
+				D38B4A8D1B58F7A20085B5D8 /* MJRefreshHeaderView.m in Sources */,
 				D38B4A131B588BAE0085B5D8 /* TYSlidePageScrollViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

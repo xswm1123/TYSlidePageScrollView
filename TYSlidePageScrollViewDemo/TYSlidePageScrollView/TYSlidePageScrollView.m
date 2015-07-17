@@ -269,8 +269,10 @@
         if (index < 0) {
             index = 0;
         }
+        
         [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:index];
         _curPageIndex = index;
+        
         if (_pageTabBar) {
             [_pageTabBar switchToPageIndex:_curPageIndex];
         }
@@ -289,14 +291,17 @@
     CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
-    if (pageScrollView.contentSize.height < viewHight - pageTabBarHieght) {
-        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, viewHight - pageTabBarHieght);
-    }
-    
     NSInteger pageTabBarIsStopOnTop = _pageTabBarStopOnTopHeight;
+    NSInteger scrollContentSizeHeight = viewHight - (pageTabBarHieght + _pageTabBarStopOnTopHeight);
     if (!_pageTabBarIsStopOnTop) {
         pageTabBarIsStopOnTop = - pageTabBarHieght;
+        scrollContentSizeHeight = viewHight - pageTabBarHieght;
     }
+    
+    if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
+        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollContentSizeHeight);
+    }
+    
     CGFloat offsetY = pageScrollView.contentOffset.y;
     if (offsetY <= -headerContentViewheight) {
         // headerContentView full show
