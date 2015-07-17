@@ -42,7 +42,7 @@
 {
     UIViewController<UIViewControllerDisplayViewDelegate> *viewController = _viewControllers[index];
     
-    if ([self.viewControllers indexOfObject:viewController] == NSNotFound) {
+    if (![self.viewControllers containsObject:viewController]) {
         [self addChildViewController:viewController];
     }
     
