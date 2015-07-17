@@ -20,6 +20,7 @@
 		D36FA1661B575C400040F866 /* CYLoLi.png in Resources */ = {isa = PBXBuildFile; fileRef = D36FA1651B575C400040F866 /* CYLoLi.png */; };
 		D36FA1691B5791490040F866 /* TYTitlePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */; };
 		D38B4A131B588BAE0085B5D8 /* TYSlidePageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */; };
+		D38B4A1A1B58A3980085B5D8 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D38B4A191B58A3980085B5D8 /* CustomViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTitlePageTabBar.m; sourceTree = "<group>"; };
 		D38B4A111B588BAE0085B5D8 /* TYSlidePageScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYSlidePageScrollViewController.h; sourceTree = "<group>"; };
 		D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYSlidePageScrollViewController.m; sourceTree = "<group>"; };
+		D38B4A181B58A3980085B5D8 /* CustomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
+		D38B4A191B58A3980085B5D8 /* CustomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,8 @@
 				D36FA13A1B57341F0040F866 /* AppDelegate.m */,
 				D36FA13C1B57341F0040F866 /* ViewController.h */,
 				D36FA13D1B57341F0040F866 /* ViewController.m */,
+				D38B4A181B58A3980085B5D8 /* CustomViewController.h */,
+				D38B4A191B58A3980085B5D8 /* CustomViewController.m */,
 				D36FA1621B5757CE0040F866 /* TableViewController.h */,
 				D36FA1631B5757CE0040F866 /* TableViewController.m */,
 				D36FA13F1B57341F0040F866 /* Main.storyboard */,
@@ -260,6 +265,7 @@
 				D36FA1641B5757CE0040F866 /* TableViewController.m in Sources */,
 				D36FA13E1B57341F0040F866 /* ViewController.m in Sources */,
 				D36FA13B1B57341F0040F866 /* AppDelegate.m in Sources */,
+				D38B4A1A1B58A3980085B5D8 /* CustomViewController.m in Sources */,
 				D36FA1381B57341F0040F866 /* main.m in Sources */,
 				D36FA15E1B5734DC0040F866 /* TYSlidePageScrollView.m in Sources */,
 				D36FA1691B5791490040F866 /* TYTitlePageTabBar.m in Sources */,

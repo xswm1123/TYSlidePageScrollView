@@ -40,6 +40,8 @@
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDataSource> dataSource;
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDelegate> delegate;
 
+@property (nonatomic, assign) BOOL automaticallyAdjustsScrollViewInsets; // default NO;(iOS 7) it will setup viewController automaticallyAdjustsScrollViewInsets, because this property (YES) cause scrollView layout no correct
+
 @property (nonatomic, strong) UIView *headerView; // defult nil，don't forget set height
 
 @property (nonatomic, strong) TYBasePageTabBar *pageTabBar; //defult nil 

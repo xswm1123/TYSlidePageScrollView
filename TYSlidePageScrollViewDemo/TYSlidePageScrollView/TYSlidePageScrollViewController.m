@@ -51,6 +51,7 @@
     }else if ([viewController.view isKindOfClass:[UIScrollView class]]) {
         return (UIScrollView *)viewController.view;
     }
+    NSLog(@"you don't implemente UIViewControllerDisplayViewDelegate ,I don't konw need display View");
     return nil;
 }
 

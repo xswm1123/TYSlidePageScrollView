@@ -59,6 +59,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
+    _automaticallyAdjustsScrollViewInsets = NO;
     _changeToNextIndexWhenScrollToWidthOfPercent = 0.5;
 }
 
@@ -186,11 +187,34 @@
     }];
 }
 
+- (UIViewController *)viewController
+{
+    for (UIView* next = [self superview]; next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
+- (void)setViewControllerAdjustsScrollView
+{
+    UIViewController *viewController = [self viewController];
+    if ([viewController respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        viewController.automaticallyAdjustsScrollViewInsets = _automaticallyAdjustsScrollViewInsets;
+    }
+}
+
 #pragma mark - public method
 
 - (void)reloadData
 {
     [self resetPropertys];
+    
+    [self setViewControllerAdjustsScrollView];
     
     [self updateHeaderContentView];
     
