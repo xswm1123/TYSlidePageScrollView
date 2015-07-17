@@ -57,9 +57,23 @@
     footerView.backgroundColor = [UIColor orangeColor];
     UILabel *lable = [[UILabel alloc]initWithFrame:footerView.bounds];
     lable.textColor = [UIColor whiteColor];
-    lable.text = @"   footerView";
+    lable.text = @"  footerView";
     [footerView addSubview:lable];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame  = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame) - 220, 0, 220, 40);
+    button.titleLabel.font = [UIFont systemFontOfSize:15];
+    [button setTitle:@"pageTabBarIsStopOnTop YES" forState:UIControlStateNormal];
+    [button setTitle:@"pageTabBarIsStopOnTop NO" forState:UIControlStateSelected];
+    [button addTarget:self action:@selector(clickedPageTabBarStopOnTop:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:button];
+    
     self.slidePageScrollView.footerView = footerView;
+}
+
+- (void)clickedPageTabBarStopOnTop:(UIButton *)button
+{
+    button.selected = !button.isSelected;
+    self.slidePageScrollView.pageTabBarIsStopOnTop = !button.isSelected;
 }
 
 - (UIViewController *)creatViewControllerPage:(NSInteger)page itemNum:(NSInteger)num
