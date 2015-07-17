@@ -299,17 +299,20 @@
     }
     CGFloat offsetY = pageScrollView.contentOffset.y;
     if (offsetY <= -headerContentViewheight) {
+        // headerContentView full show
         CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
             [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
         }
     }else if (offsetY < -pageTabBarHieght - pageTabBarIsStopOnTop) {
+        // scroll headerContentView
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
         [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y];
         
     }else {
+        // pageTabBar on the top
         CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + pageTabBarIsStopOnTop, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
