@@ -124,6 +124,8 @@
     TableViewController *tableViewVC = [[TableViewController alloc]init];
     tableViewVC.itemNum = num;
     tableViewVC.page = page;
+    
+    // don't forget addChildViewController
     [self addChildViewController:tableViewVC];
 }
 

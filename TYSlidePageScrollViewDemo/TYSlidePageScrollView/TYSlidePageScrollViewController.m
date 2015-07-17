@@ -43,6 +43,7 @@
     UIViewController<UIViewControllerDisplayViewDelegate> *viewController = _viewControllers[index];
     
     if (![self.viewControllers containsObject:viewController]) {
+        // don't forget addChildViewController
         [self addChildViewController:viewController];
     }
     

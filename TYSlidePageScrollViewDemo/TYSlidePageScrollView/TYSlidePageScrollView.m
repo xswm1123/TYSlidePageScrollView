@@ -233,9 +233,6 @@
     }
     
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
-//    CGFloat viewWidth = CGRectGetWidth(_horScrollView.frame);
-//    CGRect cellVisibleFrame  = CGRectMake(index * viewWidth, 0, viewWidth, CGRectGetHeight(_horScrollView.frame));
-//    [_horScrollView scrollRectToVisible:cellVisibleFrame animated:animated];
 }
 
 - (UIScrollView *)pageScrollViewForIndex:(NSInteger)index
@@ -279,7 +276,7 @@
         if (_delegateFlags.scrollToPageIndex) {
             [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
         }
-        NSLog(@"index %ld",_curPageIndex);
+        NSLog(@"index %ld",(long)_curPageIndex);
     }
 }
 
@@ -295,6 +292,7 @@
         pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, viewHight - pageTabBarHieght);
     }
     
+    CGFloat dockTopEdgeInset = headerContentViewheight;
     CGFloat offsetY = pageScrollView.contentOffset.y;
     if (offsetY <= -headerContentViewheight) {
         CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
@@ -314,7 +312,6 @@
             [self changeAllPageScrollViewOffsetY:-pageTabBarHieght];
         }
     }
-
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

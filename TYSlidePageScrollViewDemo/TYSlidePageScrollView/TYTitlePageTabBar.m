@@ -24,7 +24,7 @@
         _textColor = [UIColor darkTextColor];
         _selectedTextColor = [UIColor redColor];
         _horIndicatorColor = [UIColor redColor];
-        _horIndicatorHeight = 4;
+        _horIndicatorHeight = 2;
         [self addHorIndicatorView];
     }
     return self;
