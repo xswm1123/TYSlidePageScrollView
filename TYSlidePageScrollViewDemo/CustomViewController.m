@@ -41,6 +41,11 @@
     label.textColor = [UIColor orangeColor];
     label.text = @"headerView";
     [imageView addSubview:label];
+    UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 110, 320, 30)];
+    label1.textColor = [UIColor orangeColor];
+    label1.text = @"pageTabBarStopOnTopHeight 20 ↓↓";
+    [imageView addSubview:label1];
+    
     self.slidePageScrollView.headerView = imageView;
 }
 
