@@ -19,8 +19,6 @@
     // Do any additional setup after loading the view.
     
     [self addSlidePageScrollView];
-    
-    [self addViewControllers];
 }
 
 - (void)addSlidePageScrollView
@@ -30,13 +28,6 @@
     slidePageScrollView.delegate = self;
     [self.view addSubview:slidePageScrollView];
     _slidePageScrollView = slidePageScrollView;
-}
-
-- (void)addViewControllers
-{
-    for (UIViewController *viewVC in _viewControllers) {
-        [self addChildViewController:viewVC];
-    }
 }
 
 #pragma mark - TYSlidePageScrollViewDataSource
@@ -50,6 +41,11 @@
 - (UIScrollView *)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageVerticalScrollViewForIndex:(NSInteger)index
 {
     UIViewController<UIViewControllerDisplayViewDelegate> *viewController = _viewControllers[index];
+    
+    if ([self.viewControllers indexOfObject:viewController] == NSNotFound) {
+        [self addChildViewController:viewController];
+    }
+    
     if ([viewController respondsToSelector:@selector(displayView)]) {
         return [viewController displayView];
     }else if ([viewController.view isKindOfClass:[UIScrollView class]]) {

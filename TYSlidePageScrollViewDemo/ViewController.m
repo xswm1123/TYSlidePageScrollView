@@ -48,6 +48,7 @@
 - (void)addSlidePageScrollView
 {
     TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initWithFrame:self.view.bounds];
+    //CGRectMake(0, 64, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)-64)];
     slidePageScrollView.dataSource = self;
     [self.view addSubview:slidePageScrollView];
     _slidePageScrollView = slidePageScrollView;
@@ -124,7 +125,6 @@
     TableViewController *tableViewVC = [[TableViewController alloc]init];
     tableViewVC.itemNum = num;
     tableViewVC.page = page;
-    // you should addChildViewController, but you can not that if you understand .
     [self addChildViewController:tableViewVC];
 }
 
