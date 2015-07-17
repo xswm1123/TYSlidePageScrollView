@@ -10,6 +10,8 @@
 
 @interface TYTitlePageTabBar : TYBasePageTabBar
 
+@property (nonatomic, strong) UIFont *textFont;
+
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *selectedTextColor;
 

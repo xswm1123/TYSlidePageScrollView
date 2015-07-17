@@ -20,6 +20,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        _textFont = [UIFont systemFontOfSize:16];
         _textColor = [UIColor darkTextColor];
         _selectedTextColor = [UIColor redColor];
         _horIndicatorColor = [UIColor redColor];
@@ -64,6 +65,7 @@
     for (NSInteger index = 0; index < _titleArray.count; ++index) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.tag = index;
+        button.titleLabel.font = _textFont;
         [button setTitle:_titleArray[index] forState:UIControlStateNormal];
         [button setTitleColor:_textColor forState:UIControlStateNormal];
         [button setTitleColor:_selectedTextColor forState:UIControlStateSelected];

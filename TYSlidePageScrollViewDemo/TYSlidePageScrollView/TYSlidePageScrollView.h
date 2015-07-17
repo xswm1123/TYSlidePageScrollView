@@ -40,7 +40,7 @@
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDataSource> dataSource;
 @property (nonatomic, weak)   id<TYSlidePageScrollViewDelegate> delegate;
 
-@property (nonatomic, strong) UIView *headerView; // defult nil
+@property (nonatomic, strong) UIView *headerView; // defult nil，don't forget set height
 
 @property (nonatomic, strong) TYBasePageTabBar *pageTabBar; //defult nil 
 

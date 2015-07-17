@@ -28,13 +28,15 @@
     
     [self addTabPageMenu];
     
-    [self addTableViewWithPage:0 itemNum:12];
+    [self addFooterView];
     
-    [self addTableViewWithPage:1 itemNum:14];
+    [self addTableViewWithPage:0 itemNum:6];
+    
+    [self addTableViewWithPage:1 itemNum:12];
     
     [self addTableViewWithPage:2 itemNum:16];
     
-    [self addTableViewWithPage:3 itemNum:12];
+    [self addTableViewWithPage:3 itemNum:8];
     
     [_slidePageScrollView reloadData];
     
@@ -55,6 +57,10 @@
 {
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 180)];
     imageView.image = [UIImage imageNamed:@"CYLoLi"];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 75, 100, 30)];
+    label.textColor = [UIColor orangeColor];
+    label.text = @"headerView";
+    [imageView addSubview:label];
     _slidePageScrollView.headerView = imageView;
 }
 
@@ -66,8 +72,19 @@
     _slidePageScrollView.pageTabBar = titlePageTabBar;
 }
 
+- (void)addFooterView
+{
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40)];
+    footerView.backgroundColor = [UIColor orangeColor];
+    UILabel *lable = [[UILabel alloc]initWithFrame:footerView.bounds];
+    lable.textColor = [UIColor whiteColor];
+    lable.text = @"   footerView";
+    [footerView addSubview:lable];
+    _slidePageScrollView.footerView = footerView;
+}
 
-/*** second way to add
+
+/*** this is second way to add
 - (void)addTabPageMenu
 {
     TYBasePageTabBar *tabPageMenu = [[TYBasePageTabBar alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40)];
