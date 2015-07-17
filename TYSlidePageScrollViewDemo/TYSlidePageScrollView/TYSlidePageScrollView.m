@@ -59,7 +59,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
-    _changeToNextIndexWhenScrollWidthPercent = 0.5;
+    _changeToNextIndexWhenScrollToWidthOfPercent = 0.5;
 }
 
 - (void)resetPropertys
@@ -238,7 +238,7 @@
         [_delegate slidePageScrollView:self scrollViewDidScroll:_horScrollView];
     }
     
-    NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + _changeToNextIndexWhenScrollWidthPercent);
+    NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + _changeToNextIndexWhenScrollToWidthOfPercent);
     
     if (_curPageIndex != index) {
         if (index >= _pageScrollViewArray.count) {

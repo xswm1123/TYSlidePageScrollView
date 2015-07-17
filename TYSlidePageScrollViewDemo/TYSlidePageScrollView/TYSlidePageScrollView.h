@@ -49,7 +49,7 @@
 @property (nonatomic, assign, readonly) NSInteger curPageIndex;
 
 // 当滚动到scroll宽度的百分之多少 改变index 
-@property (nonatomic, assign) CGFloat changeToNextIndexWhenScrollWidthPercent; // 0.0~0.1 default 0.4
+@property (nonatomic, assign) CGFloat changeToNextIndexWhenScrollToWidthOfPercent; // 0.0~0.1 default 0.5, when scroll to half of width, change to next index
 
 
 - (void)reloadData;
