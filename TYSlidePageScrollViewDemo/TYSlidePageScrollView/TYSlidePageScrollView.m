@@ -59,6 +59,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
+    _dockTopEdgeInset = 0;
     _automaticallyAdjustsScrollViewInsets = NO;
     _changeToNextIndexWhenScrollToWidthOfPercent = 0.5;
 }
@@ -292,7 +293,6 @@
         pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, viewHight - pageTabBarHieght);
     }
     
-    CGFloat dockTopEdgeInset = headerContentViewheight;
     CGFloat offsetY = pageScrollView.contentOffset.y;
     if (offsetY <= -headerContentViewheight) {
         CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
@@ -300,13 +300,13 @@
             _headerContentView.frame = frame;
             [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
         }
-    }else if (offsetY < -pageTabBarHieght) {
+    }else if (offsetY < -pageTabBarHieght - _dockTopEdgeInset) {
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
         [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y];
         
     }else {
-        CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght, viewWidth, headerContentViewheight);
+        CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + _dockTopEdgeInset, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
             [self changeAllPageScrollViewOffsetY:-pageTabBarHieght];
