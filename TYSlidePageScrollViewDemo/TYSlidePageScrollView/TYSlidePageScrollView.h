@@ -42,11 +42,13 @@
 
 @property (nonatomic, assign) BOOL automaticallyAdjustsScrollViewInsets; // default NO;(iOS 7) it will setup viewController automaticallyAdjustsScrollViewInsets, because this property (YES) cause scrollView layout no correct
 
-@property (nonatomic, assign) CGFloat dockTopEdgeInset; // bageTabBar dock top edgeInset
-
 @property (nonatomic, strong) UIView *headerView; // defult nil，don't forget set height
 
-@property (nonatomic, strong) TYBasePageTabBar *pageTabBar; //defult nil 
+@property (nonatomic, strong) TYBasePageTabBar *pageTabBar; //defult nil
+
+@property (nonatomic, assign) BOOL pageTabBarIsStopOnTop;  // default YES, is stop on top
+
+@property (nonatomic, assign) CGFloat pageTabBarStopOnTopHeight; // bageTabBar stop on top height, if pageTabBarIsStopOnTop is NO ,this property is inValid
 
 @property (nonatomic, strong) UIView *footerView; // defult nil
 

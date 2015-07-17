@@ -59,7 +59,8 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
-    _dockTopEdgeInset = 0;
+    _pageTabBarStopOnTopHeight = 0;
+    _pageTabBarIsStopOnTop = YES;
     _automaticallyAdjustsScrollViewInsets = NO;
     _changeToNextIndexWhenScrollToWidthOfPercent = 0.5;
 }
@@ -293,6 +294,10 @@
         pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, viewHight - pageTabBarHieght);
     }
     
+    NSInteger pageTabBarIsStopOnTop = _pageTabBarStopOnTopHeight;
+    if (!_pageTabBarIsStopOnTop) {
+        pageTabBarIsStopOnTop = - pageTabBarHieght;
+    }
     CGFloat offsetY = pageScrollView.contentOffset.y;
     if (offsetY <= -headerContentViewheight) {
         CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
@@ -300,13 +305,13 @@
             _headerContentView.frame = frame;
             [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
         }
-    }else if (offsetY < -pageTabBarHieght - _dockTopEdgeInset) {
+    }else if (offsetY < -pageTabBarHieght - pageTabBarIsStopOnTop) {
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
         [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y];
         
     }else {
-        CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + _dockTopEdgeInset, viewWidth, headerContentViewheight);
+        CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + pageTabBarIsStopOnTop, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
             [self changeAllPageScrollViewOffsetY:-pageTabBarHieght];
