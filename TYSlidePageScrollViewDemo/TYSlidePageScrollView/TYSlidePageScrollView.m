@@ -277,7 +277,7 @@
         if (_delegateFlags.scrollToPageIndex) {
             [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
         }
-        NSLog(@"index %ld",(long)_curPageIndex);
+        //NSLog(@"index %ld",(long)_curPageIndex);
     }
 }
 

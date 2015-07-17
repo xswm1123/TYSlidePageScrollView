@@ -13,10 +13,10 @@
 @protocol TYSlidePageScrollViewDataSource <NSObject>
 
 @required
-// num pageViews
+// num of pageViews
 - (NSInteger)numberOfPageViewOnSlidePageScrollView;
 
-// pageView need inherit UIScrollView (UITableview inherit it) ,also vertical scroll 
+// pageView need inherit UIScrollView (UITableview inherit it) ,and vertical scroll 
 - (UIScrollView *)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageVerticalScrollViewForIndex:(NSInteger)index;
 
 @end
