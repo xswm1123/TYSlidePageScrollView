@@ -314,7 +314,7 @@
         CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + pageTabBarIsStopOnTop, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
-            [self changeAllPageScrollViewOffsetY:-pageTabBarHieght];
+            [self changeAllPageScrollViewOffsetY:-pageTabBarHieght-pageTabBarIsStopOnTop];
         }
     }
 }
