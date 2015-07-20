@@ -24,20 +24,23 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    
+    self.tableView.tableFooterView = [[UIView alloc]init];
     __typeof (self) __weak weakSelf = self;
     
-    [self.tableView addFooterWithCallback:^{
-        [weakSelf delayInSeconds:2.0 block:^{
-            [weakSelf.tableView footerEndRefreshing];
-        }];
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        // 进入刷新状态后会自动调用这个block
+        [weakSelf delayInSeconds:1.0 block:^{
+            [weakSelf.tableView.header endRefreshing];
+         }];
     }];
     
-    [self.tableView addHeaderWithCallback:^{
-        [weakSelf delayInSeconds:2.0 block:^{
-            [weakSelf.tableView headerEndRefreshing];
+    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        // 进入刷新状态后会自动调用这个block
+        [weakSelf delayInSeconds:1.0 block:^{
+            [weakSelf.tableView.footer endRefreshing];
         }];
     }];
+    //self.tableView.footer.ignoredScrollViewContentInsetTop = 40;
 }
 
 - (void)delayInSeconds:(CGFloat)delayInSeconds block:(dispatch_block_t) block
