@@ -40,7 +40,7 @@
             [weakSelf.tableView.footer endRefreshing];
         }];
     }];
-    //self.tableView.footer.ignoredScrollViewContentInsetTop = 40;
+    self.tableView.footer.ignoredScrollViewContentInsetTop = 40;
 }
 
 - (void)delayInSeconds:(CGFloat)delayInSeconds block:(dispatch_block_t) block

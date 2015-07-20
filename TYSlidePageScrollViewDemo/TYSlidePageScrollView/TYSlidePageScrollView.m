@@ -167,16 +167,37 @@
     
     if (oldIndex >= 0 && oldIndex < _pageScrollViewArray.count) {
         [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
+        [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentSize" context:nil];
     }
     if (newIndex >= 0 && newIndex < _pageScrollViewArray.count) {
+        
         [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+        [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([object isKindOfClass:[UIScrollView class]]) {
+    if ([keyPath isEqualToString:@"contentOffset"]) {
         [self pageScrollViewDidScroll:object];
+    }else if ([keyPath isEqualToString:@"contentSize"]) {
+        [self dealPageScrollViewMinContentSize:object];
+    }
+}
+
+- (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
+{
+    CGFloat viewHight = CGRectGetHeight(self.frame);
+    CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
+    
+    NSInteger scrollContentSizeHeight = viewHight - (pageTabBarHieght + _pageTabBarStopOnTopHeight+ CGRectGetHeight(_footerView.frame));
+    
+    if (!_pageTabBarIsStopOnTop) {
+        scrollContentSizeHeight = viewHight - pageTabBarHieght;
+    }
+    
+    if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
+        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollContentSizeHeight);
     }
 }
 
@@ -287,19 +308,12 @@
 - (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView
 {
     CGFloat viewWidth = CGRectGetWidth(self.frame);
-    CGFloat viewHight = CGRectGetHeight(self.frame);
     CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
     NSInteger pageTabBarIsStopOnTop = _pageTabBarStopOnTopHeight;
-    NSInteger scrollContentSizeHeight = viewHight - (pageTabBarHieght + _pageTabBarStopOnTopHeight+CGRectGetHeight(_footerView.frame));
     if (!_pageTabBarIsStopOnTop) {
         pageTabBarIsStopOnTop = - pageTabBarHieght;
-        scrollContentSizeHeight = viewHight - pageTabBarHieght;
-    }
-    
-    if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
-        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollContentSizeHeight);
     }
     
     CGFloat offsetY = pageScrollView.contentOffset.y;
