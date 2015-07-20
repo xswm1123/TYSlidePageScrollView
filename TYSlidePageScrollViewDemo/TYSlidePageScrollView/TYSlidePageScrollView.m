@@ -67,7 +67,8 @@
 
 - (void)resetPropertys
 {
-    [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:-1];
+    [self removeAllPageViewKeyPathForContentSize];
+    [self addPageViewKeyPathOffsetWithOldIndex:_curPageIndex newIndex:-1];
     _curPageIndex = 0;
     [_headerContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_footerView removeFromSuperview];
@@ -159,7 +160,7 @@
     _horScrollView.contentSize = CGSizeMake(viewWidth*pageNum, 0);
 }
 
-- (void)addPageViewKeyPathWithOldIndex:(NSInteger)oldIndex newIndex:(NSInteger)newIndex
+- (void)addPageViewKeyPathOffsetWithOldIndex:(NSInteger)oldIndex newIndex:(NSInteger)newIndex
 {
     if (oldIndex == newIndex) {
         return;
@@ -167,12 +168,23 @@
     
     if (oldIndex >= 0 && oldIndex < _pageScrollViewArray.count) {
         [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
-        [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentSize" context:nil];
     }
     if (newIndex >= 0 && newIndex < _pageScrollViewArray.count) {
         
         [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-        [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
+- (void)addAllPageViewKeyPathForContentSize
+{
+    for (UIScrollView *pageScrollView in _pageScrollViewArray) {
+        [pageScrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+- (void)removeAllPageViewKeyPathForContentSize
+{
+    for (UIScrollView *pageScrollView in _pageScrollViewArray) {
+        [pageScrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
     }
 }
 
@@ -187,9 +199,6 @@
 
 - (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
 {
-    if (pageScrollView.contentSize.height <= 0) {
-        return;
-    }
     CGFloat viewHight = CGRectGetHeight(self.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
@@ -247,7 +256,9 @@
     
     [self updatePageViews];
     
-    [self addPageViewKeyPathWithOldIndex:-1 newIndex:_curPageIndex];
+    [self addAllPageViewKeyPathForContentSize];
+    
+    [self addPageViewKeyPathOffsetWithOldIndex:-1 newIndex:_curPageIndex];
 }
 
 - (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated
@@ -294,7 +305,7 @@
             index = 0;
         }
         
-        [self addPageViewKeyPathWithOldIndex:_curPageIndex newIndex:index];
+        [self addPageViewKeyPathOffsetWithOldIndex:_curPageIndex newIndex:index];
         _curPageIndex = index;
         
         if (_pageTabBar) {
