@@ -34,13 +34,15 @@
          }];
     }];
     
-    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         [weakSelf delayInSeconds:1.0 block:^{
+            _itemNum += 2;
             [weakSelf.tableView.footer endRefreshing];
+            [weakSelf.tableView reloadData];
         }];
     }];
-    self.tableView.footer.ignoredScrollViewContentInsetTop = 40;
+    //self.tableView.footer.ignoredScrollViewContentInsetTop = 40;
 }
 
 - (void)delayInSeconds:(CGFloat)delayInSeconds block:(dispatch_block_t) block

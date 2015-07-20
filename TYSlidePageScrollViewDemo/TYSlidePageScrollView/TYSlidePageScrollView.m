@@ -187,6 +187,9 @@
 
 - (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
 {
+    if (pageScrollView.contentSize.height <= 0) {
+        return;
+    }
     CGFloat viewHight = CGRectGetHeight(self.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
