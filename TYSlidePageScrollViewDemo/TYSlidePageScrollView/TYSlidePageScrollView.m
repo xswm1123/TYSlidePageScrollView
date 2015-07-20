@@ -170,8 +170,17 @@
         [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
     }
     if (newIndex >= 0 && newIndex < _pageScrollViewArray.count) {
-        
         [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
+- (void)resetPageScrollViewContentOffset
+{
+    if (_curPageIndex >= 0 && _curPageIndex < _pageScrollViewArray.count) {
+        CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
+        UIScrollView *pagescrollView = _pageScrollViewArray[_curPageIndex];
+        pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -headerContentViewheight);
+        [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
     }
 }
 
@@ -199,6 +208,9 @@
 
 - (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
 {
+    if (pageScrollView.contentSize.height <= 0) {
+        return;
+    }
     CGFloat viewHight = CGRectGetHeight(self.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
@@ -259,6 +271,8 @@
     [self addAllPageViewKeyPathForContentSize];
     
     [self addPageViewKeyPathOffsetWithOldIndex:-1 newIndex:_curPageIndex];
+    
+    [self resetPageScrollViewContentOffset];
 }
 
 - (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated
