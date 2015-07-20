@@ -217,7 +217,7 @@
     NSInteger scrollContentSizeHeight = viewHight - (pageTabBarHieght + _pageTabBarStopOnTopHeight+ CGRectGetHeight(_footerView.frame));
     
     if (!_pageTabBarIsStopOnTop) {
-        scrollContentSizeHeight = viewHight - pageTabBarHieght;
+        scrollContentSizeHeight = viewHight - CGRectGetHeight(_footerView.frame);
     }
     
     if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
