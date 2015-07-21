@@ -33,7 +33,6 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        
         [self setPropertys];
         
         [self addHorScrollView];
@@ -341,7 +340,7 @@
 }
 
 // page scrollView
-- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeOtherPageViews:(BOOL)isChangeAll
+- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeOtherPageViews:(BOOL)isChange
 {
     CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
@@ -359,14 +358,16 @@
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
         }
-        if (isChangeAll) {
+        
+        if (isChange) {
             [self changeAllPageScrollViewOffsetY:-headerContentViewheight isOnTop:NO];
         }
     }else if (offsetY < -pageTabBarHieght - pageTabBarIsStopOnTop) {
         // scroll headerContentView
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
-        if (isChangeAll) {
+        
+        if (isChange) {
             [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y isOnTop:NO];
         }
         
@@ -376,7 +377,8 @@
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
         }
-        if (isChangeAll) {
+        
+        if (isChange) {
             [self changeAllPageScrollViewOffsetY:-pageTabBarHieght-pageTabBarIsStopOnTop isOnTop:YES];
         }
     }
