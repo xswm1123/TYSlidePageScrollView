@@ -177,10 +177,11 @@
 {
     if (_curPageIndex >= 0 && _curPageIndex < _pageScrollViewArray.count) {
         CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
+        
         UIScrollView *pagescrollView = _pageScrollViewArray[_curPageIndex];
         pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -headerContentViewheight);
-        [self dealPageScrollViewMinContentSize:pagescrollView];
         [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
+        //[self dealPageScrollViewMinContentSize:pagescrollView];
     }
 }
 
@@ -206,6 +207,16 @@
     if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
         pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollContentSizeHeight);
     }
+}
+
+- (void)dealAllPageScrollViewMinContentSize
+{
+    // 处理所有scrollView contentsize
+    [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
+        if (idx != _curPageIndex) {
+            [self dealPageScrollViewMinContentSize:obj];
+        }
+    }];
 }
 
 - (void)changeAllPageScrollViewOffsetY:(CGFloat)offsetY
@@ -250,8 +261,6 @@
     
     [self updatePageViews];
     
-    //[self addAllPageViewKeyPathForContentSize];
-    
     [self addPageViewKeyPathOffsetWithOldIndex:-1 newIndex:_curPageIndex];
     
     [self resetPageScrollViewContentOffset];
@@ -263,6 +272,8 @@
         NSLog(@"scrollToPageIndex index illegal");
         return;
     }
+    
+    [self dealAllPageScrollViewMinContentSize];
     
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
 }
@@ -286,14 +297,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    NSLog(@"BeginDragging");
-    // 处理所有scrollView contentsize
-    [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
-        if (idx != _curPageIndex) {
-            [self dealPageScrollViewMinContentSize:obj];
-        }
-    }];
-    
+    [self dealAllPageScrollViewMinContentSize];
     //
 }
 
