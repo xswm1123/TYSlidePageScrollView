@@ -17,6 +17,7 @@
         unsigned int scrollToPageIndex   :1;
         unsigned int scrollViewDidScroll :1;
         unsigned int scrollViewDidEndDecelerating :1;
+        unsigned int scrollViewWillBeginDragging :1;
     }_delegateFlags;
 }
 
@@ -82,6 +83,7 @@
     _delegateFlags.scrollToPageIndex = [delegate respondsToSelector:@selector(slidePageScrollView:scrollToPageIndex:)];
     _delegateFlags.scrollViewDidScroll = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewDidScroll:)];
     _delegateFlags.scrollViewDidEndDecelerating = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewDidEndDecelerating:)];
+    _delegateFlags.scrollViewWillBeginDragging = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewWillBeginDragging:)];
 }
 
 #pragma mark - add subView
@@ -297,8 +299,11 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+    if (_delegateFlags.scrollViewWillBeginDragging) {
+        [_delegate slidePageScrollView:self scrollViewWillBeginDragging:scrollView];
+    }
+    
     [self dealAllPageScrollViewMinContentSize];
-    //
 }
 
 // horizen scrollView

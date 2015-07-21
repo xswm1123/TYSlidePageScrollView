@@ -30,6 +30,9 @@
 // horizen scroll any offset changes will call
 - (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewDidScroll:(UIScrollView *)scrollView;
 
+// horizen scroll Begin Dragging
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+
 // horizen scroll called when scroll view grinds to a halt
 - (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
 
