@@ -236,8 +236,7 @@
 
 - (UIViewController *)viewController
 {
-    for (UIView* next = [self superview]; next; next =
-         next.superview) {
+    for (UIView* next = [self superview]; next; next = next.superview) {
         UIResponder* nextResponder = [next nextResponder];
         if ([nextResponder isKindOfClass:[UIViewController class]]) {
             return (UIViewController*)nextResponder;
@@ -288,7 +287,7 @@
 - (UIScrollView *)pageScrollViewForIndex:(NSInteger)index
 {
     if (index < 0 || index >= _pageScrollViewArray.count) {
-        NSLog(@"scrollToPageIndex index illegal");
+        NSLog(@"pageScrollViewForIndex index illegal");
         return nil;
     }
     
