@@ -67,7 +67,6 @@
 
 - (void)resetPropertys
 {
-    [self removeAllPageViewKeyPathForContentSize];
     [self addPageViewKeyPathOffsetWithOldIndex:_curPageIndex newIndex:-1];
     _curPageIndex = 0;
     [_headerContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -180,20 +179,8 @@
         CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
         UIScrollView *pagescrollView = _pageScrollViewArray[_curPageIndex];
         pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -headerContentViewheight);
+        [self dealPageScrollViewMinContentSize:pagescrollView];
         [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
-    }
-}
-
-- (void)addAllPageViewKeyPathForContentSize
-{
-    for (UIScrollView *pageScrollView in _pageScrollViewArray) {
-        [pageScrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-- (void)removeAllPageViewKeyPathForContentSize
-{
-    for (UIScrollView *pageScrollView in _pageScrollViewArray) {
-        [pageScrollView removeObserver:self forKeyPath:@"contentSize" context:nil];
     }
 }
 
@@ -201,23 +188,19 @@
 {
     if ([keyPath isEqualToString:@"contentOffset"]) {
         [self pageScrollViewDidScroll:object];
-    }else if ([keyPath isEqualToString:@"contentSize"]) {
-        [self dealPageScrollViewMinContentSize:object];
     }
 }
 
 - (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
 {
-    if (pageScrollView.contentSize.height <= 0) {
-        return;
-    }
-    CGFloat viewHight = CGRectGetHeight(self.frame);
+    CGFloat viewHeight = CGRectGetHeight(self.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
+    CGFloat footerHeight = CGRectGetHeight(_footerView.frame);
     
-    NSInteger scrollContentSizeHeight = viewHight - (pageTabBarHieght + _pageTabBarStopOnTopHeight+ CGRectGetHeight(_footerView.frame));
+    NSInteger scrollContentSizeHeight = viewHeight - (pageTabBarHieght + _pageTabBarStopOnTopHeight + footerHeight);
     
     if (!_pageTabBarIsStopOnTop) {
-        scrollContentSizeHeight = viewHight - CGRectGetHeight(_footerView.frame);
+        scrollContentSizeHeight = viewHeight - footerHeight;
     }
     
     if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
@@ -267,7 +250,7 @@
     
     [self updatePageViews];
     
-    [self addAllPageViewKeyPathForContentSize];
+    //[self addAllPageViewKeyPathForContentSize];
     
     [self addPageViewKeyPathOffsetWithOldIndex:-1 newIndex:_curPageIndex];
     
@@ -301,6 +284,19 @@
 
 #pragma mark - delegate
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    NSLog(@"BeginDragging");
+    // 处理所有scrollView contentsize
+    [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
+        if (idx != _curPageIndex) {
+            [self dealPageScrollViewMinContentSize:obj];
+        }
+    }];
+    
+    //
+}
+
 // horizen scrollView
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -327,7 +323,7 @@
         if (_delegateFlags.scrollToPageIndex) {
             [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
         }
-        //NSLog(@"index %ld",(long)_curPageIndex);
+        NSLog(@"index %ld",(long)_curPageIndex);
     }
 }
 
