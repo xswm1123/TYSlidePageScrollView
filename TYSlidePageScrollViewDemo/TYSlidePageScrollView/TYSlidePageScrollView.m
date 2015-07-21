@@ -24,7 +24,7 @@
 @property (nonatomic, weak) UIScrollView    *horScrollView;     // horizen scroll View
 @property (nonatomic, weak) UIView          *headerContentView; // contain header and pageTab
 
-@property (nonatomic, strong) NSArray       *pageScrollViewArray;
+@property (nonatomic, strong) NSArray       *pageViewArray;
 
 @end
 
@@ -71,8 +71,8 @@
     _curPageIndex = 0;
     [_headerContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_footerView removeFromSuperview];
-    [_pageScrollViewArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    _pageScrollViewArray = nil;
+    [_pageViewArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    _pageViewArray = nil;
 }
 
 - (UIViewController *)viewController
@@ -116,6 +116,14 @@
 }
 
 #pragma mark - private method
+
+- (void)setViewControllerAdjustsScrollView
+{
+    UIViewController *viewController = [self viewController];
+    if ([viewController respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        viewController.automaticallyAdjustsScrollViewInsets = _automaticallyAdjustsScrollViewInsets;
+    }
+}
 
 - (void)updateHeaderContentView
 {
@@ -167,7 +175,7 @@
         [scrollViewArray addObject:pageVerScrollView];
     }
     
-    _pageScrollViewArray = [scrollViewArray copy];
+    _pageViewArray = [scrollViewArray copy];
     _horScrollView.contentSize = CGSizeMake(viewWidth*pageNum, 0);
 }
 
@@ -177,23 +185,11 @@
         return;
     }
     
-    if (oldIndex >= 0 && oldIndex < _pageScrollViewArray.count) {
-        [_pageScrollViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
+    if (oldIndex >= 0 && oldIndex < _pageViewArray.count) {
+        [_pageViewArray[oldIndex] removeObserver:self forKeyPath:@"contentOffset" context:nil];
     }
-    if (newIndex >= 0 && newIndex < _pageScrollViewArray.count) {
-        [_pageScrollViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-
-- (void)resetPageScrollViewContentOffset
-{
-    if (_curPageIndex >= 0 && _curPageIndex < _pageScrollViewArray.count) {
-        CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
-        
-        UIScrollView *pagescrollView = _pageScrollViewArray[_curPageIndex];
-        pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -headerContentViewheight);
-        [self changeAllPageScrollViewOffsetY:-headerContentViewheight isOnTop:NO];
-        //[self dealPageScrollViewMinContentSize:pagescrollView];
+    if (newIndex >= 0 && newIndex < _pageViewArray.count) {
+        [_pageViewArray[newIndex] addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
@@ -224,7 +220,7 @@
 - (void)dealAllPageScrollViewMinContentSize
 {
     // 处理所有scrollView contentsize
-    [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
+    [_pageViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
         if (idx != _curPageIndex) {
             [self dealPageScrollViewMinContentSize:obj];
         }
@@ -233,18 +229,18 @@
 
 - (void)changeAllPageScrollViewOffsetY:(CGFloat)offsetY isOnTop:(BOOL)isOnTop
 {
-    [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *pageScrollView, NSUInteger idx, BOOL *stop) {
+    [_pageViewArray enumerateObjectsUsingBlock:^(UIScrollView *pageScrollView, NSUInteger idx, BOOL *stop) {
         if (idx != _curPageIndex && !(isOnTop && pageScrollView.contentOffset.y > offsetY)) {
             [pageScrollView setContentOffset:CGPointMake(pageScrollView.contentOffset.x, offsetY)];
         }
     }];
 }
 
-- (void)setViewControllerAdjustsScrollView
+- (void)resetPageScrollViewContentOffset
 {
-    UIViewController *viewController = [self viewController];
-    if ([viewController respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
-        viewController.automaticallyAdjustsScrollViewInsets = _automaticallyAdjustsScrollViewInsets;
+    if (_curPageIndex >= 0 && _curPageIndex < _pageViewArray.count) {
+        UIScrollView *pagescrollView = _pageViewArray[_curPageIndex];
+        pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -CGRectGetHeight(_headerContentView.frame));
     }
 }
 
@@ -269,35 +265,35 @@
 
 - (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated
 {
-    if (index < 0 || index >= _pageScrollViewArray.count) {
+    if (index < 0 || index >= _pageViewArray.count) {
         NSLog(@"scrollToPageIndex index illegal");
         return;
     }
     
     [self dealAllPageScrollViewMinContentSize];
     
-    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeOtherPageViews:YES];
+    [self pageScrollViewDidScroll:_pageViewArray[_curPageIndex] changeOtherPageViews:YES];
     
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
 }
 
 - (UIScrollView *)pageScrollViewForIndex:(NSInteger)index
 {
-    if (index < 0 || index >= _pageScrollViewArray.count) {
+    if (index < 0 || index >= _pageViewArray.count) {
         NSLog(@"pageScrollViewForIndex index illegal");
         return nil;
     }
     
-    return _pageScrollViewArray[index];
+    return _pageViewArray[index];
 }
 
 - (NSInteger)indexOfPageScrollView:(UIScrollView *)pageScrollView
 {
-    return [_pageScrollViewArray indexOfObject:pageScrollView];
+    return [_pageViewArray indexOfObject:pageScrollView];
 }
 
 #pragma mark - delegate
-
+// horizen scrollView
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     if (_delegateFlags.scrollViewWillBeginDragging) {
@@ -306,7 +302,7 @@
     
     [self dealAllPageScrollViewMinContentSize];
     
-    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeOtherPageViews:YES];
+    [self pageScrollViewDidScroll:_pageViewArray[_curPageIndex] changeOtherPageViews:YES];
 }
 
 // horizen scrollView
@@ -319,8 +315,8 @@
     NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + _changeToNextIndexWhenScrollToWidthOfPercent);
     
     if (_curPageIndex != index) {
-        if (index >= _pageScrollViewArray.count) {
-            index = _pageScrollViewArray.count-1;
+        if (index >= _pageViewArray.count) {
+            index = _pageViewArray.count-1;
         }
         if (index < 0) {
             index = 0;
