@@ -201,7 +201,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        [self pageScrollViewDidScroll:object changeAllPageScrollView:NO];
+        [self pageScrollViewDidScroll:object changeOtherPageViews:NO];
     }
 }
 
@@ -236,7 +236,7 @@
 {
     [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *pageScrollView, NSUInteger idx, BOOL *stop) {
         if (idx != _curPageIndex && !(isOnTop && pageScrollView.contentOffset.y > offsetY)) {
-            pageScrollView.contentOffset = CGPointMake(pageScrollView.contentOffset.x, offsetY);
+            [pageScrollView setContentOffset:CGPointMake(pageScrollView.contentOffset.x, offsetY)];
         }
     }];
 }
@@ -277,7 +277,7 @@
     
     [self dealAllPageScrollViewMinContentSize];
     
-    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeAllPageScrollView:YES];
+    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeOtherPageViews:YES];
     
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
 }
@@ -307,7 +307,7 @@
     
     [self dealAllPageScrollViewMinContentSize];
     
-    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeAllPageScrollView:YES];
+    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeOtherPageViews:YES];
 }
 
 // horizen scrollView
@@ -336,14 +336,13 @@
         if (_delegateFlags.scrollToPageIndex) {
             [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
         }
-        NSLog(@"index %ld",(long)_curPageIndex);
+        //NSLog(@"index %ld",(long)_curPageIndex);
     }
 }
 
 // page scrollView
-- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeAllPageScrollView:(BOOL)isChangeAll
+- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeOtherPageViews:(BOOL)isChangeAll
 {
-    CGFloat viewWidth = CGRectGetWidth(self.frame);
     CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
@@ -352,6 +351,7 @@
         pageTabBarIsStopOnTop = - pageTabBarHieght;
     }
     
+    CGFloat viewWidth = CGRectGetWidth(self.frame);
     CGFloat offsetY = pageScrollView.contentOffset.y;
     if (offsetY <= -headerContentViewheight) {
         // headerContentView full show
@@ -367,7 +367,7 @@
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
         if (isChangeAll) {
-        [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y isOnTop:NO];
+            [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y isOnTop:NO];
         }
         
     }else {
