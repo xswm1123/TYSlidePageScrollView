@@ -76,6 +76,17 @@
     _pageScrollViewArray = nil;
 }
 
+- (UIViewController *)viewController
+{
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
 - (void)setDelegate:(id<TYSlidePageScrollViewDelegate>)delegate
 {
     _delegate = delegate;
@@ -182,7 +193,7 @@
         
         UIScrollView *pagescrollView = _pageScrollViewArray[_curPageIndex];
         pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -headerContentViewheight);
-        [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
+        [self changeAllPageScrollViewOffsetY:-headerContentViewheight isOnTop:NO];
         //[self dealPageScrollViewMinContentSize:pagescrollView];
     }
 }
@@ -190,7 +201,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        [self pageScrollViewDidScroll:object];
+        [self pageScrollViewDidScroll:object changeAllPageScrollView:NO];
     }
 }
 
@@ -221,24 +232,13 @@
     }];
 }
 
-- (void)changeAllPageScrollViewOffsetY:(CGFloat)offsetY
+- (void)changeAllPageScrollViewOffsetY:(CGFloat)offsetY isOnTop:(BOOL)isOnTop
 {
     [_pageScrollViewArray enumerateObjectsUsingBlock:^(UIScrollView *pageScrollView, NSUInteger idx, BOOL *stop) {
-        if (idx != _curPageIndex) {
+        if (idx != _curPageIndex && !(isOnTop && pageScrollView.contentOffset.y > offsetY)) {
             pageScrollView.contentOffset = CGPointMake(pageScrollView.contentOffset.x, offsetY);
         }
     }];
-}
-
-- (UIViewController *)viewController
-{
-    for (UIView* next = [self superview]; next; next = next.superview) {
-        UIResponder* nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController*)nextResponder;
-        }
-    }
-    return nil;
 }
 
 - (void)setViewControllerAdjustsScrollView
@@ -277,6 +277,8 @@
     
     [self dealAllPageScrollViewMinContentSize];
     
+    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeAllPageScrollView:YES];
+    
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
 }
 
@@ -304,6 +306,8 @@
     }
     
     [self dealAllPageScrollViewMinContentSize];
+    
+    [self pageScrollViewDidScroll:_pageScrollViewArray[_curPageIndex] changeAllPageScrollView:YES];
 }
 
 // horizen scrollView
@@ -337,7 +341,7 @@
 }
 
 // page scrollView
-- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView
+- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeAllPageScrollView:(BOOL)isChangeAll
 {
     CGFloat viewWidth = CGRectGetWidth(self.frame);
     CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
@@ -354,20 +358,26 @@
         CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
-            [self changeAllPageScrollViewOffsetY:-headerContentViewheight];
+        }
+        if (isChangeAll) {
+            [self changeAllPageScrollViewOffsetY:-headerContentViewheight isOnTop:NO];
         }
     }else if (offsetY < -pageTabBarHieght - pageTabBarIsStopOnTop) {
         // scroll headerContentView
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
-        [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y];
+        if (isChangeAll) {
+        [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y isOnTop:NO];
+        }
         
     }else {
         // pageTabBar on the top
         CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + pageTabBarIsStopOnTop, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
-            [self changeAllPageScrollViewOffsetY:-pageTabBarHieght-pageTabBarIsStopOnTop];
+        }
+        if (isChangeAll) {
+            [self changeAllPageScrollViewOffsetY:-pageTabBarHieght-pageTabBarIsStopOnTop isOnTop:YES];
         }
     }
 }
