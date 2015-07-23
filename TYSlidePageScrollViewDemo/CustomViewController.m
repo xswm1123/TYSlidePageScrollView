@@ -90,6 +90,12 @@
     return tableViewVC;
 }
 
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollToPageIndex:(NSInteger)index
+{
+    TableViewController *VC = self.viewControllers[index];
+    [VC.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

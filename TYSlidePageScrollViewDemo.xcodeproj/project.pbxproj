@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D33F73411B609274008FE512 /* UIScrollView+ty_swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D33F73401B609274008FE512 /* UIScrollView+ty_swizzle.m */; };
 		D358E3021B5C8BCC00EB8FCC /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D358E2D81B5C8BCC00EB8FCC /* MJRefreshAutoFooter.m */; };
 		D358E3031B5C8BCC00EB8FCC /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D358E2DA1B5C8BCC00EB8FCC /* MJRefreshBackFooter.m */; };
 		D358E3041B5C8BCC00EB8FCC /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = D358E2DC1B5C8BCC00EB8FCC /* MJRefreshComponent.m */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D33F733F1B609274008FE512 /* UIScrollView+ty_swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ty_swizzle.h"; sourceTree = "<group>"; };
+		D33F73401B609274008FE512 /* UIScrollView+ty_swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ty_swizzle.m"; sourceTree = "<group>"; };
 		D358E2D71B5C8BCC00EB8FCC /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		D358E2D81B5C8BCC00EB8FCC /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		D358E2D91B5C8BCC00EB8FCC /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -307,6 +310,8 @@
 				D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */,
 				D38B4A111B588BAE0085B5D8 /* TYSlidePageScrollViewController.h */,
 				D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */,
+				D33F733F1B609274008FE512 /* UIScrollView+ty_swizzle.h */,
+				D33F73401B609274008FE512 /* UIScrollView+ty_swizzle.m */,
 			);
 			path = TYSlidePageScrollView;
 			sourceTree = "<group>";
@@ -440,6 +445,7 @@
 				D358E3051B5C8BCC00EB8FCC /* MJRefreshFooter.m in Sources */,
 				D358E3041B5C8BCC00EB8FCC /* MJRefreshComponent.m in Sources */,
 				D358E30A1B5C8BCC00EB8FCC /* MJRefreshBackGifFooter.m in Sources */,
+				D33F73411B609274008FE512 /* UIScrollView+ty_swizzle.m in Sources */,
 				D36FA15E1B5734DC0040F866 /* TYSlidePageScrollView.m in Sources */,
 				D358E30F1B5C8BCC00EB8FCC /* MJRefreshStateHeader.m in Sources */,
 				D358E30C1B5C8BCC00EB8FCC /* MJRefreshBackStateFooter.m in Sources */,

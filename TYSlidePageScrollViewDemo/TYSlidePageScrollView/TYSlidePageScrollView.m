@@ -7,6 +7,7 @@
 //
 
 #import "TYSlidePageScrollView.h"
+#import "UIScrollView+ty_swizzle.h"
 
 @interface TYBasePageTabBar ()
 @property (nonatomic, weak) id<TYBasePageTabBarPrivateDelegate> praviteDelegate;
@@ -200,20 +201,27 @@
     }
 }
 
-- (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
+- (CGFloat)scrollViewMinContentSizeHeight
 {
     CGFloat viewHeight = CGRectGetHeight(self.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     CGFloat footerHeight = CGRectGetHeight(_footerView.frame);
     
-    NSInteger scrollContentSizeHeight = viewHeight - (pageTabBarHieght + _pageTabBarStopOnTopHeight + footerHeight);
+    NSInteger scrollMinContentSizeHeight = viewHeight - (pageTabBarHieght + _pageTabBarStopOnTopHeight + footerHeight);
     
     if (!_pageTabBarIsStopOnTop) {
-        scrollContentSizeHeight = viewHeight - footerHeight;
+        scrollMinContentSizeHeight = viewHeight - footerHeight;
     }
+    return scrollMinContentSizeHeight;
+}
+
+- (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
+{
+    NSInteger scrollMinContentSizeHeight = [self scrollViewMinContentSizeHeight];
+    pageScrollView.minContentSizeHeight = scrollMinContentSizeHeight;
     
-    if (pageScrollView.contentSize.height < scrollContentSizeHeight) {
-        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollContentSizeHeight);
+    if (pageScrollView.contentSize.height < scrollMinContentSizeHeight) {
+        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollMinContentSizeHeight);
     }
 }
 
@@ -221,9 +229,7 @@
 {
     // 处理所有scrollView contentsize
     [_pageViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
-        if (idx != _curPageIndex) {
-            [self dealPageScrollViewMinContentSize:obj];
-        }
+        [self dealPageScrollViewMinContentSize:obj];
     }];
 }
 
@@ -260,6 +266,8 @@
     
     [self addPageViewKeyPathOffsetWithOldIndex:-1 newIndex:_curPageIndex];
     
+    [self dealAllPageScrollViewMinContentSize];
+    
     [self resetPageScrollViewContentOffset];
 }
 
@@ -269,8 +277,6 @@
         NSLog(@"scrollToPageIndex index illegal");
         return;
     }
-    
-    [self dealAllPageScrollViewMinContentSize];
     
     [self pageScrollViewDidScroll:_pageViewArray[_curPageIndex] changeOtherPageViews:YES];
     
@@ -299,8 +305,6 @@
     if (_delegateFlags.scrollViewWillBeginDragging) {
         [_delegate slidePageScrollView:self scrollViewWillBeginDragging:scrollView];
     }
-    
-    [self dealAllPageScrollViewMinContentSize];
     
     [self pageScrollViewDidScroll:_pageViewArray[_curPageIndex] changeOtherPageViews:YES];
 }
