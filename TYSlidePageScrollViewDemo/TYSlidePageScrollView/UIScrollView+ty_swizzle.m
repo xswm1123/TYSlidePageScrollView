@@ -2,7 +2,7 @@
 //  UIScrollView+ty_swizzle.m
 //  TYSlidePageScrollViewDemo
 //
-//  Created by SunYong on 15/7/23.
+//  Created by tanyang on 15/7/23.
 //  Copyright (c) 2015年 tanyang. All rights reserved.
 //
 
@@ -21,7 +21,7 @@
 
 - (CGFloat)minContentSizeHeight
 {
-    return [objc_getAssociatedObject(self, @selector(minContentSizeHeight)) floatValue];
+    return [objc_getAssociatedObject(self, _cmd) floatValue];
 }
 
 - (void)setMinContentSizeHeight:(CGFloat)minContentSizeHeight

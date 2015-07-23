@@ -2,7 +2,7 @@
 //  UIScrollView+ty_swizzle.h
 //  TYSlidePageScrollViewDemo
 //
-//  Created by SunYong on 15/7/23.
+//  Created by tanyang on 15/7/23.
 //  Copyright (c) 2015年 tanyang. All rights reserved.
 //
 
