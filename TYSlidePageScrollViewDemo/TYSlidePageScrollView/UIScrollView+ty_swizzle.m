@@ -13,7 +13,10 @@
 
 + (void)load
 {
-    [self ty_swizzleMethodWithOrignalSel:@selector(setContentSize:) replacementSel:@selector(ty_setContentSize:)];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self ty_swizzleMethodWithOrignalSel:@selector(setContentSize:) replacementSel:@selector(ty_setContentSize:)];
+    });
 }
 
 - (CGFloat)minContentSizeHeight
