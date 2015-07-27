@@ -15,10 +15,11 @@
 
 @interface TYSlidePageScrollView ()<UIScrollViewDelegate,TYBasePageTabBarPrivateDelegate>{
     struct {
-        unsigned int scrollToPageIndex   :1;
-        unsigned int scrollViewDidScroll :1;
-        unsigned int scrollViewDidEndDecelerating :1;
-        unsigned int scrollViewWillBeginDragging :1;
+        unsigned int horizenScrollToPageIndex   :1;
+        unsigned int horizenScrollViewDidScroll :1;
+        unsigned int horizenScrollViewDidEndDecelerating :1;
+        unsigned int horizenScrollViewWillBeginDragging :1;
+        unsigned int verticalScrollViewDidScroll :1;
     }_delegateFlags;
 }
 
@@ -91,10 +92,11 @@
 {
     _delegate = delegate;
     
-    _delegateFlags.scrollToPageIndex = [delegate respondsToSelector:@selector(slidePageScrollView:scrollToPageIndex:)];
-    _delegateFlags.scrollViewDidScroll = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewDidScroll:)];
-    _delegateFlags.scrollViewDidEndDecelerating = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewDidEndDecelerating:)];
-    _delegateFlags.scrollViewWillBeginDragging = [delegate respondsToSelector:@selector(slidePageScrollView:scrollViewWillBeginDragging:)];
+    _delegateFlags.horizenScrollToPageIndex = [delegate respondsToSelector:@selector(slidePageScrollView:horizenScrollToPageIndex:)];
+    _delegateFlags.horizenScrollViewDidScroll = [delegate respondsToSelector:@selector(slidePageScrollView:horizenScrollViewDidScroll:)];
+    _delegateFlags.horizenScrollViewDidEndDecelerating = [delegate respondsToSelector:@selector(slidePageScrollView:horizenScrollViewDidEndDecelerating:)];
+    _delegateFlags.horizenScrollViewWillBeginDragging = [delegate respondsToSelector:@selector(slidePageScrollView:horizenScrollViewWillBeginDragging:)];
+    _delegateFlags.verticalScrollViewDidScroll = [delegate respondsToSelector:@selector(slidePageScrollView:verticalScrollViewDidScroll:)];
 }
 
 #pragma mark - add subView
@@ -302,8 +304,8 @@
 // horizen scrollView
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if (_delegateFlags.scrollViewWillBeginDragging) {
-        [_delegate slidePageScrollView:self scrollViewWillBeginDragging:scrollView];
+    if (_delegateFlags.horizenScrollViewWillBeginDragging) {
+        [_delegate slidePageScrollView:self horizenScrollViewWillBeginDragging:scrollView];
     }
     
     [self pageScrollViewDidScroll:_pageViewArray[_curPageIndex] changeOtherPageViews:YES];
@@ -312,8 +314,8 @@
 // horizen scrollView
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (_delegateFlags.scrollViewDidScroll) {
-        [_delegate slidePageScrollView:self scrollViewDidScroll:_horScrollView];
+    if (_delegateFlags.horizenScrollViewDidScroll) {
+        [_delegate slidePageScrollView:self horizenScrollViewDidScroll:_horScrollView];
     }
     
     NSInteger index = (NSInteger)(scrollView.contentOffset.x/CGRectGetWidth(scrollView.frame) + _changeToNextIndexWhenScrollToWidthOfPercent);
@@ -332,8 +334,8 @@
         if (_pageTabBar) {
             [_pageTabBar switchToPageIndex:_curPageIndex];
         }
-        if (_delegateFlags.scrollToPageIndex) {
-            [_delegate slidePageScrollView:self scrollToPageIndex:_curPageIndex];
+        if (_delegateFlags.horizenScrollToPageIndex) {
+            [_delegate slidePageScrollView:self horizenScrollToPageIndex:_curPageIndex];
         }
         //NSLog(@"index %ld",(long)_curPageIndex);
     }
@@ -342,6 +344,10 @@
 // page scrollView
 - (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeOtherPageViews:(BOOL)isChange
 {
+    if (_delegateFlags.verticalScrollViewDidScroll) {
+        [_delegate slidePageScrollView:self verticalScrollViewDidScroll:pageScrollView];
+    }
+    
     CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
@@ -386,8 +392,8 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (_delegateFlags.scrollViewDidEndDecelerating) {
-        [_delegate slidePageScrollView:self scrollViewDidEndDecelerating:_horScrollView];
+    if (_delegateFlags.horizenScrollViewDidEndDecelerating) {
+        [_delegate slidePageScrollView:self horizenScrollViewDidEndDecelerating:_horScrollView];
     }
 }
 

@@ -7,13 +7,13 @@
 //
 
 #import "ViewController.h"
-#import "TYSlidePageScrollView.h"
-#import "TableViewController.h"
-#import "TYTitlePageTabBar.h"
+#import "CustomViewController.h"
+#import "CustomView2Controller.h"
 
-@interface ViewController ()<TYSlidePageScrollViewDataSource>
-@property (nonatomic, weak) TYSlidePageScrollView *slidePageScrollView;
-@property (nonatomic ,strong) UIButton *selectBtn;
+@interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSArray *detailArray;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end
 
 @implementation ViewController
@@ -21,130 +21,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-
-    [self addSlidePageScrollView];
     
-    [self addHeaderView];
+    _titleArray = @[@"CustomViewController",@"CustomView2Controller"];
+    _detailArray = @[@" 继承自TYSlidePageScrollViewController", @" 引用TYSlidePageScrollView"];
     
-    [self addTabPageMenu];
-    
-    [self addFooterView];
-    
-    [self addTableViewWithPage:0 itemNum:6];
-    
-    [self addTableViewWithPage:1 itemNum:12];
-    
-    [self addTableViewWithPage:2 itemNum:16];
-    
-    [self addTableViewWithPage:3 itemNum:8];
-    
-    [_slidePageScrollView reloadData];
-    
-    //[_slidePageScrollView scrollToPageIndex:0 nimated:NO];
-    
-    //[self tabButtonClicked:_selectBtn];
 }
 
-- (void)addSlidePageScrollView
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initWithFrame:self.view.bounds];
-    slidePageScrollView.dataSource = self;
-    [self.view addSubview:slidePageScrollView];
-    _slidePageScrollView = slidePageScrollView;
+    return _detailArray.count;
 }
 
-- (void)addHeaderView
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 180)];
-    imageView.image = [UIImage imageNamed:@"CYLoLi"];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 75, 100, 30)];
-    label.textColor = [UIColor orangeColor];
-    label.text = @"headerView";
-    [imageView addSubview:label];
-    _slidePageScrollView.headerView = imageView;
-}
-
-- (void)addTabPageMenu
-{
-    TYTitlePageTabBar *titlePageTabBar = [[TYTitlePageTabBar alloc]initWithTitleArray:@[@"简介",@"课程",@"评论",@"答疑"]];
-    titlePageTabBar.frame = CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40);
-    titlePageTabBar.backgroundColor = [UIColor lightGrayColor];
-    _slidePageScrollView.pageTabBar = titlePageTabBar;
-}
-
-- (void)addFooterView
-{
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40)];
-    footerView.backgroundColor = [UIColor orangeColor];
-    UILabel *lable = [[UILabel alloc]initWithFrame:footerView.bounds];
-    lable.textColor = [UIColor whiteColor];
-    lable.text = @"   footerView";
-    [footerView addSubview:lable];
-    _slidePageScrollView.footerView = footerView;
-}
-
-
-/*** this is second way to add
-- (void)addTabPageMenu
-{
-    TYBasePageTabBar *tabPageMenu = [[TYBasePageTabBar alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_slidePageScrollView.frame), 40)];
-    tabPageMenu.backgroundColor = [UIColor lightGrayColor];
-    for (int i = 0; i < 3; ++i) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.tag = i;
-        CGFloat btnWidth = CGRectGetWidth(tabPageMenu.frame)/3;
-        button.frame = CGRectMake(i*btnWidth, 0, btnWidth, CGRectGetHeight(tabPageMenu.frame));
-        [button setTitle:[NSString stringWithFormat:@"tabIndex%d",i] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
-        [button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [tabPageMenu addSubview:button];
-        
-        if (i == 0) {
-            _selectBtn = button;
-        }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     }
-  _slidePageScrollView.pageTabBar = tabPageMenu;
-}
-
-- (void)tabButtonClicked:(UIButton *)button
-{
-    if (_selectBtn) {
-        _selectBtn.selected = NO;
-    }
-    button.selected = YES;
-    _selectBtn = button;
-        
-    [_slidePageScrollView scrollToPageIndex:button.tag nimated:YES];
-}
- ***/
-
-- (void)addTableViewWithPage:(NSInteger)page itemNum:(NSInteger)num
-{
-    TableViewController *tableViewVC = [[TableViewController alloc]init];
-    tableViewVC.itemNum = num;
-    tableViewVC.page = page;
+    cell.textLabel.text = _titleArray[indexPath.row];
+    cell.detailTextLabel.text = _detailArray[indexPath.row];
     
-    // don't forget addChildViewController
-    [self addChildViewController:tableViewVC];
+    return cell;
 }
 
-#pragma mark - dataSource
-
-- (NSInteger)numberOfPageViewOnSlidePageScrollView
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.childViewControllers.count;
-}
-
-- (UIScrollView *)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageVerticalScrollViewForIndex:(NSInteger)index
-{
-    TableViewController *tableViewVC = self.childViewControllers[index];
-    return tableViewVC.tableView;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIViewController *VC = nil;
+    if (indexPath.row == 0) {
+        VC = [[CustomViewController alloc]init];
+    }else if (indexPath.row == 1){
+        VC = [[CustomView2Controller alloc]init];
+    }
+    
+    if (VC) {
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 @end

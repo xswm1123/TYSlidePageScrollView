@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kJX-wb-AEE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lux-fh-8qs">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--TYSlidePageScrollViewDemo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -16,11 +16,38 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="jgI-gD-Cwp">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="cvX-Ww-5QM"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="fcf-6n-8rF"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jgI-gD-Cwp" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Xqh-Rs-SAV"/>
+                            <constraint firstAttribute="trailing" secondItem="jgI-gD-Cwp" secondAttribute="trailing" id="cXr-lI-HT0"/>
+                            <constraint firstItem="jgI-gD-Cwp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="lbt-Eo-jhL"/>
+                            <constraint firstAttribute="bottom" secondItem="jgI-gD-Cwp" secondAttribute="bottom" id="nmV-lQ-4uB"/>
+                            <constraint firstItem="jgI-gD-Cwp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="yk1-Mu-hO1"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Xqh-Rs-SAV"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="TYSlidePageScrollViewDemo" id="qBo-2M-8S0"/>
+                    <connections>
+                        <outlet property="tableView" destination="jgI-gD-Cwp" id="RGB-9T-BDT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1117" y="441"/>
         </scene>
         <!--Custom View Controller-->
         <scene sceneID="xQ2-B7-hvn">
@@ -38,7 +65,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fWY-Ou-UhU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="348" y="1189"/>
+            <point key="canvasLocation" x="1792" y="1"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yYz-Mo-a9A">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lux-fh-8qs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6ZR-2A-98S">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QUS-fS-Tfw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="89W-dm-CNa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="370" y="470"/>
         </scene>
     </scenes>
 </document>

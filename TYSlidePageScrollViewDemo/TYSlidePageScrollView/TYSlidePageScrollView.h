@@ -13,6 +13,7 @@
 @protocol TYSlidePageScrollViewDataSource <NSObject>
 
 @required
+
 // num of pageViews
 - (NSInteger)numberOfPageViewOnSlidePageScrollView;
 
@@ -24,17 +25,21 @@
 @protocol TYSlidePageScrollViewDelegate <NSObject>
 
 @optional
+
+// vertical scroll any offset changes will call
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView verticalScrollViewDidScroll:(UIScrollView *)pageScrollView;
+
 // horizen scroll to pageIndex, when index change will call
-- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollToPageIndex:(NSInteger)index;
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollToPageIndex:(NSInteger)index;
 
 // horizen scroll any offset changes will call
-- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewDidScroll:(UIScrollView *)scrollView;
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollViewDidScroll:(UIScrollView *)scrollView;
 
 // horizen scroll Begin Dragging
-- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollViewWillBeginDragging:(UIScrollView *)scrollView;
 
 // horizen scroll called when scroll view grinds to a halt
-- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollViewDidEndDecelerating:(UIScrollView *)scrollView;
 
 @end
 

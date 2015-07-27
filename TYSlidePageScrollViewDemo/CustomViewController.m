@@ -23,6 +23,7 @@
     self.viewControllers = @[[self creatViewControllerPage:0 itemNum:6],[self creatViewControllerPage:1 itemNum:16],[self creatViewControllerPage:2 itemNum:6],[self creatViewControllerPage:3 itemNum:12]];
     
     self.slidePageScrollView.pageTabBarStopOnTopHeight = 20;
+    
     [self addHeaderView];
     
     [self addTabPageMenu];
@@ -33,18 +34,45 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)addHeaderView
 {
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.slidePageScrollView.frame), 180)];
     imageView.image = [UIImage imageNamed:@"CYLoLi"];
+    imageView.userInteractionEnabled = YES;
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame  = CGRectMake(10, 30, 40, 32);
+    [button setTitle:@"Back" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
+    [imageView addSubview:button];
+    
+    button.titleLabel.font = [UIFont systemFontOfSize:16];
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 75, 100, 30)];
     label.textColor = [UIColor orangeColor];
     label.text = @"headerView";
     [imageView addSubview:label];
-    UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 110, 320, 30)];
+    UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 105, 320, 30)];
     label1.textColor = [UIColor orangeColor];
     label1.text = @"pageTabBarStopOnTopHeight 20 ↓↓";
     [imageView addSubview:label1];
+    
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10, 135, 320, 30)];
+    label2.textColor = [UIColor orangeColor];
+    label2.text = @"pageTabBarIsStopOnTop YES ↓↓";
+    [imageView addSubview:label2];
     
     self.slidePageScrollView.headerView = imageView;
 }
@@ -65,13 +93,13 @@
     lable.textColor = [UIColor whiteColor];
     lable.text = @"  footerView";
     [footerView addSubview:lable];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame  = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame) - 220, 0, 220, 40);
-    button.titleLabel.font = [UIFont systemFontOfSize:15];
-    [button setTitle:@"pageTabBarIsStopOnTop YES" forState:UIControlStateNormal];
-    [button setTitle:@"pageTabBarIsStopOnTop NO" forState:UIControlStateSelected];
-    [button addTarget:self action:@selector(clickedPageTabBarStopOnTop:) forControlEvents:UIControlEventTouchUpInside];
-    [footerView addSubview:button];
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    button.frame  = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame) - 220, 0, 220, 40);
+//    button.titleLabel.font = [UIFont systemFontOfSize:15];
+//    [button setTitle:@"pageTabBarIsStopOnTop YES" forState:UIControlStateNormal];
+//    [button setTitle:@"pageTabBarIsStopOnTop NO" forState:UIControlStateSelected];
+//    [button addTarget:self action:@selector(clickedPageTabBarStopOnTop:) forControlEvents:UIControlEventTouchUpInside];
+//    [footerView addSubview:button];
     
     self.slidePageScrollView.footerView = footerView;
 }
@@ -82,6 +110,11 @@
     self.slidePageScrollView.pageTabBarIsStopOnTop = !button.isSelected;
 }
 
+- (void)navGoBack:(UIButton *)button
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (UIViewController *)creatViewControllerPage:(NSInteger)page itemNum:(NSInteger)num
 {
     TableViewController *tableViewVC = [[TableViewController alloc]init];
@@ -90,8 +123,9 @@
     return tableViewVC;
 }
 
-- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView scrollToPageIndex:(NSInteger)index
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollToPageIndex:(NSInteger)index
 {
+    // 测试 reloadData
     TableViewController *VC = self.viewControllers[index];
     [VC.tableView reloadData];
 }
