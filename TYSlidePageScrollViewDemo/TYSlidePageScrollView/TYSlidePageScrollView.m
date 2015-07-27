@@ -74,7 +74,6 @@
     [_headerContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_footerView removeFromSuperview];
     [_pageViewArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    _pageViewArray = nil;
 }
 
 - (UIViewController *)viewController
@@ -337,7 +336,6 @@
         if (_delegateFlags.horizenScrollToPageIndex) {
             [_delegate slidePageScrollView:self horizenScrollToPageIndex:_curPageIndex];
         }
-        //NSLog(@"index %ld",(long)_curPageIndex);
     }
 }
 

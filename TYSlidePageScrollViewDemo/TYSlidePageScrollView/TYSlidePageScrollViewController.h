@@ -21,5 +21,6 @@
 
 @property (nonatomic, weak, readonly) TYSlidePageScrollView *slidePageScrollView;
 
+// viewController need conform to UIViewControllerDisplayViewDelegate
 @property (nonatomic, strong) NSArray   *viewControllers;
 @end
