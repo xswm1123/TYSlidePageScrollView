@@ -309,12 +309,12 @@
 			children = (
 				D36FA15C1B5734DC0040F866 /* TYSlidePageScrollView.h */,
 				D36FA15D1B5734DC0040F866 /* TYSlidePageScrollView.m */,
+				D38B4A111B588BAE0085B5D8 /* TYSlidePageScrollViewController.h */,
+				D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */,
 				D36FA15F1B573D630040F866 /* TYBasePageTabBar.h */,
 				D36FA1601B573D630040F866 /* TYBasePageTabBar.m */,
 				D36FA1671B5791490040F866 /* TYTitlePageTabBar.h */,
 				D36FA1681B5791490040F866 /* TYTitlePageTabBar.m */,
-				D38B4A111B588BAE0085B5D8 /* TYSlidePageScrollViewController.h */,
-				D38B4A121B588BAE0085B5D8 /* TYSlidePageScrollViewController.m */,
 				D33F733F1B609274008FE512 /* UIScrollView+ty_swizzle.h */,
 				D33F73401B609274008FE512 /* UIScrollView+ty_swizzle.m */,
 			);

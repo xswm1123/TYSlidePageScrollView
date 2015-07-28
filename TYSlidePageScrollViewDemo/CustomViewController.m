@@ -22,7 +22,7 @@
     
     self.viewControllers = @[[self creatViewControllerPage:0 itemNum:6],[self creatViewControllerPage:1 itemNum:16],[self creatViewControllerPage:2 itemNum:6],[self creatViewControllerPage:3 itemNum:12]];
     
-    self.slidePageScrollView.pageTabBarStopOnTopHeight = 20;
+    self.slidePageScrollView.pageTabBarStopOnTopHeight = _isNoHeaderView ? 0 : 20;
     
     [self addHeaderView];
     
@@ -53,9 +53,9 @@
     imageView.userInteractionEnabled = YES;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame  = CGRectMake(10, 30, 40, 32);
-    [button setTitle:@"Back" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    button.frame  = CGRectMake(10, 30, 60, 32);
+    [button setTitle:@"GoBack" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
     [imageView addSubview:button];
     
@@ -74,7 +74,7 @@
     label2.text = @"pageTabBarIsStopOnTop YES ↓↓";
     [imageView addSubview:label2];
     
-    self.slidePageScrollView.headerView = imageView;
+    self.slidePageScrollView.headerView = _isNoHeaderView ? nil : imageView;
 }
 
 - (void)addTabPageMenu
@@ -93,13 +93,14 @@
     lable.textColor = [UIColor whiteColor];
     lable.text = @"  footerView";
     [footerView addSubview:lable];
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//    button.frame  = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame) - 220, 0, 220, 40);
-//    button.titleLabel.font = [UIFont systemFontOfSize:15];
-//    [button setTitle:@"pageTabBarIsStopOnTop YES" forState:UIControlStateNormal];
-//    [button setTitle:@"pageTabBarIsStopOnTop NO" forState:UIControlStateSelected];
-//    [button addTarget:self action:@selector(clickedPageTabBarStopOnTop:) forControlEvents:UIControlEventTouchUpInside];
-//    [footerView addSubview:button];
+    if (_isNoHeaderView) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame  = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame) - 80, 0, 60, 40);
+        button.titleLabel.font = [UIFont systemFontOfSize:15];
+        [button setTitle:@"GoBack" forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
+        [footerView addSubview:button];
+    }
     
     self.slidePageScrollView.footerView = footerView;
 }
@@ -123,12 +124,12 @@
     return tableViewVC;
 }
 
-- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollToPageIndex:(NSInteger)index
-{
-    // 测试 reloadData
-    TableViewController *VC = self.viewControllers[index];
-    [VC.tableView reloadData];
-}
+//- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollToPageIndex:(NSInteger)index
+//{
+//    // 测试 reloadData
+//    TableViewController *VC = self.viewControllers[index];
+//    [VC.tableView reloadData];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

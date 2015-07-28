@@ -22,8 +22,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    _titleArray = @[@"CustomViewController",@"CustomView2Controller"];
-    _detailArray = @[@" 继承自TYSlidePageScrollViewController", @" 引用TYSlidePageScrollView"];
+    _titleArray = @[@"CustomViewController",@"CustomView2Controller",@"CustomViewController",@"CustomView2Controller"];
+    _detailArray = @[@" 继承自TYSlidePageScrollViewController", @" 引用TYSlidePageScrollView",@"is NO headerView",@"pageTabBarIsStopOnTop NO"];
     
 }
 
@@ -54,6 +54,13 @@
         VC = [[CustomViewController alloc]init];
     }else if (indexPath.row == 1){
         VC = [[CustomView2Controller alloc]init];
+        ((CustomView2Controller *)VC).pageTabBarIsStopOnTop = YES;
+    }else if (indexPath.row == 2){
+        VC = [[CustomViewController alloc]init];
+        ((CustomViewController *)VC).isNoHeaderView = YES;
+    }else if (indexPath.row == 3){
+        VC = [[CustomView2Controller alloc]init];
+        ((CustomView2Controller *)VC).pageTabBarIsStopOnTop = NO;
     }
     
     if (VC) {

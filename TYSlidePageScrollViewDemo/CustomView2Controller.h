@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CustomView2Controller : UIViewController
-
+@property (nonatomic, assign) BOOL pageTabBarIsStopOnTop; 
 @end

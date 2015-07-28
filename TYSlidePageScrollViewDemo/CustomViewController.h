@@ -9,5 +9,5 @@
 #import "TYSlidePageScrollViewController.h"
 
 @interface CustomViewController : TYSlidePageScrollViewController
-
+@property (nonatomic , assign) BOOL isNoHeaderView;
 @end

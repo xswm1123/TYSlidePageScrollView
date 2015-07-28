@@ -44,6 +44,7 @@
 - (void)addSlidePageScrollView
 {
     TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)-64)];
+    slidePageScrollView.pageTabBarIsStopOnTop = _pageTabBarIsStopOnTop;
     slidePageScrollView.dataSource = self;
     [self.view addSubview:slidePageScrollView];
     _slidePageScrollView = slidePageScrollView;
