@@ -20,6 +20,9 @@
 
 @property (nonatomic, strong) NSArray *titleArray;
 
+@property (nonatomic, assign) UIEdgeInsets edgeInset;   // view edge Inset
+@property (nonatomic, assign) CGFloat titleSpacing;     // title button spacing
+
 - (instancetype)initWithTitleArray:(NSArray *)titleArray;
 
 @end

@@ -62,7 +62,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"page%ld Objective-C是基于C语言 %ld",(long)_page,(long)indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"pageView%ld need inherit scrollView%ld",(long)_page,(long)indexPath.row];
     
     return cell;
 }

@@ -10,6 +10,13 @@
 #import "TYBasePageTabBar.h"
 
 @class TYSlidePageScrollView;
+
+typedef NS_ENUM(NSUInteger, TYPageTabBarState) {
+    TYPageTabBarStateStopOnTop,
+    TYPageTabBarStateScrolling,
+    TYPageTabBarStateStopOnButtom,
+};
+
 @protocol TYSlidePageScrollViewDataSource <NSObject>
 
 @required
@@ -28,6 +35,9 @@
 
 // vertical scroll any offset changes will call
 - (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView verticalScrollViewDidScroll:(UIScrollView *)pageScrollView;
+
+// pageTabBar vertical scroll and state
+- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageTabBarScrollOffset:(CGFloat)offset state:(TYPageTabBarState)state;
 
 // horizen scroll to pageIndex, when index change will call
 - (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollToPageIndex:(NSInteger)index;

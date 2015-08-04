@@ -29,6 +29,7 @@
     objc_setAssociatedObject(self, @selector(minContentSizeHeight), @(minContentSizeHeight), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+// replace method
 - (void)ty_setContentSize:(CGSize)contentSize
 {
     if (contentSize.height < self.minContentSizeHeight) {
@@ -37,6 +38,7 @@
     [self ty_setContentSize:contentSize];
 }
 
+// exchange method
 + (BOOL)ty_swizzleMethodWithOrignalSel:(SEL)originalSel replacementSel:(SEL)replacementSel
 {
     Method origMethod = class_getInstanceMethod(self, originalSel);

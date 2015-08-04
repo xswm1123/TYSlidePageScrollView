@@ -127,18 +127,18 @@
 {
     [super layoutSubviews];
     
-    CGFloat btnWidth = CGRectGetWidth(self.frame)/_btnArray.count;
-    CGFloat viewHeight = CGRectGetHeight(self.frame);
+    CGFloat btnWidth = (CGRectGetWidth(self.frame)-_edgeInset.left-_edgeInset.right + _titleSpacing)/_btnArray.count - _titleSpacing;
+    CGFloat viewHeight = CGRectGetHeight(self.frame)-_edgeInset.top-_edgeInset.bottom;
     
     [_btnArray enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        button.frame = CGRectMake(idx*btnWidth, 0, btnWidth, viewHeight);
+        button.frame = CGRectMake(idx*(btnWidth+_titleSpacing)+_edgeInset.left, _edgeInset.top, btnWidth, viewHeight);
     }];
     
     NSInteger curIndex = 0;
     if (_selectBtn) {
         curIndex = [_btnArray indexOfObject:_selectBtn];
     }
-    _horIndicator.frame = CGRectMake(curIndex*btnWidth, viewHeight - _horIndicatorHeight, btnWidth, _horIndicatorHeight);
+    _horIndicator.frame = CGRectMake(curIndex*(btnWidth+_titleSpacing)+_edgeInset.left, CGRectGetHeight(self.frame) - _horIndicatorHeight, btnWidth, _horIndicatorHeight);
 }
 
 /*

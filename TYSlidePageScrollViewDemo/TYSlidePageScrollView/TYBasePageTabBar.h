@@ -21,7 +21,7 @@
 // when clicked pageTabBar index, must /*Ourself*/ call to change TYSlidePageScrollView index
 - (void)clickedPageTabBarAtIndex:(NSInteger)index;
 
-// override, auto call ,when TYSlidePageScrollView index change;
+// override, auto call ,when TYSlidePageScrollView index change, you can change pageTabBar index
 - (void)switchToPageIndex:(NSInteger)index;
 
 @end

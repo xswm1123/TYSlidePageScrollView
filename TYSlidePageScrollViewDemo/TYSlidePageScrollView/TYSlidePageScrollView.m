@@ -20,12 +20,12 @@
         unsigned int horizenScrollViewDidEndDecelerating :1;
         unsigned int horizenScrollViewWillBeginDragging :1;
         unsigned int verticalScrollViewDidScroll :1;
+        unsigned int pageTabBarScrollOffset :1;
     }_delegateFlags;
 }
 
 @property (nonatomic, weak) UIScrollView    *horScrollView;     // horizen scroll View
 @property (nonatomic, weak) UIView          *headerContentView; // contain header and pageTab
-
 @property (nonatomic, strong) NSArray       *pageViewArray;
 
 @end
@@ -96,6 +96,7 @@
     _delegateFlags.horizenScrollViewDidEndDecelerating = [delegate respondsToSelector:@selector(slidePageScrollView:horizenScrollViewDidEndDecelerating:)];
     _delegateFlags.horizenScrollViewWillBeginDragging = [delegate respondsToSelector:@selector(slidePageScrollView:horizenScrollViewWillBeginDragging:)];
     _delegateFlags.verticalScrollViewDidScroll = [delegate respondsToSelector:@selector(slidePageScrollView:verticalScrollViewDidScroll:)];
+    _delegateFlags.pageTabBarScrollOffset = [delegate respondsToSelector:@selector(slidePageScrollView:pageTabBarScrollOffset:state:)];
 }
 
 #pragma mark - add subView
@@ -340,7 +341,7 @@
 }
 
 // page scrollView
-- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeOtherPageViews:(BOOL)isChange
+- (void)pageScrollViewDidScroll:(UIScrollView *)pageScrollView changeOtherPageViews:(BOOL)isNeedChange
 {
     if (_delegateFlags.verticalScrollViewDidScroll) {
         [_delegate slidePageScrollView:self verticalScrollViewDidScroll:pageScrollView];
@@ -361,9 +362,13 @@
         CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
+
+            if (_delegateFlags.pageTabBarScrollOffset) {
+                [_delegate slidePageScrollView:self pageTabBarScrollOffset:offsetY state:TYPageTabBarStateStopOnButtom];
+            }
         }
         
-        if (isChange) {
+        if (isNeedChange) {
             [self changeAllPageScrollViewOffsetY:-headerContentViewheight isOnTop:NO];
         }
     }else if (offsetY < -pageTabBarHieght - pageTabBarIsStopOnTop) {
@@ -371,7 +376,11 @@
         CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
         _headerContentView.frame = frame;
         
-        if (isChange) {
+        if (_delegateFlags.pageTabBarScrollOffset) {
+            [_delegate slidePageScrollView:self pageTabBarScrollOffset:offsetY state:TYPageTabBarStateScrolling];
+        }
+        
+        if (isNeedChange) {
             [self changeAllPageScrollViewOffsetY:pageScrollView.contentOffset.y isOnTop:NO];
         }
         
@@ -380,9 +389,13 @@
         CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + pageTabBarIsStopOnTop, viewWidth, headerContentViewheight);
         if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
             _headerContentView.frame = frame;
+
+            if (_delegateFlags.pageTabBarScrollOffset) {
+                [_delegate slidePageScrollView:self pageTabBarScrollOffset:offsetY state:TYPageTabBarStateStopOnTop];
+            }
         }
         
-        if (isChange) {
+        if (isNeedChange) {
             [self changeAllPageScrollViewOffsetY:-pageTabBarHieght-pageTabBarIsStopOnTop isOnTop:YES];
         }
     }
