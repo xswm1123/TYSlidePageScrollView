@@ -18,10 +18,10 @@
 // Fully customizable pageTabBar inherit it
 @interface TYBasePageTabBar : UIView
 
-// when clicked pageTabBar index, must /*Ourself*/ call to change TYSlidePageScrollView index
+// when clicked pageTabBar index, must /*Ourself*/ call this, to change TYSlidePageScrollView index
 - (void)clickedPageTabBarAtIndex:(NSInteger)index;
 
-// override, auto call ,when TYSlidePageScrollView index change, you can change pageTabBar index
+// override, auto call ,when TYSlidePageScrollView index change, you can change your pageTabBar index on this method
 - (void)switchToPageIndex:(NSInteger)index;
 
 @end

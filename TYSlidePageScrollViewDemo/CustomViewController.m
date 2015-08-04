@@ -69,6 +69,9 @@
 
     [self.slidePageScrollView addSubview:shareBtn];
     _shareBtn = shareBtn;
+    
+    _backBtn.hidden = _isNoHeaderView;
+    _shareBtn.hidden = _isNoHeaderView;
 }
 
 - (void)addHeaderView
@@ -77,14 +80,6 @@
     imageView.image = [UIImage imageNamed:@"CYLoLi"];
     imageView.userInteractionEnabled = YES;
     
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//    button.frame  = CGRectMake(10, 30, 60, 32);
-//    [button setTitle:@"GoBack" forState:UIControlStateNormal];
-//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//    [button addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
-//    [imageView addSubview:button];
-//    
-//    button.titleLabel.font = [UIFont systemFontOfSize:16];
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 75, 100, 30)];
     label.textColor = [UIColor orangeColor];
     label.text = @"headerView";
@@ -105,26 +100,29 @@
 - (void)addTabPageMenu
 {
     TYTitlePageTabBar *titlePageTabBar = [[TYTitlePageTabBar alloc]initWithTitleArray:@[@"简介",@"课程",@"评论",@"答疑"]];
-    titlePageTabBar.frame = CGRectMake(0, 0, CGRectGetWidth(self.slidePageScrollView.frame), 40);
-    titlePageTabBar.edgeInset = UIEdgeInsetsMake(0, 50, 0, 50);
+    titlePageTabBar.frame = CGRectMake(0, 0, CGRectGetWidth(self.slidePageScrollView.frame), _isNoHeaderView?50:40);
+    titlePageTabBar.edgeInset = UIEdgeInsetsMake(_isNoHeaderView?20:0, 50, 0, 50);
     titlePageTabBar.titleSpacing = 10;
     titlePageTabBar.backgroundColor = [UIColor lightGrayColor];
     self.slidePageScrollView.pageTabBar = titlePageTabBar;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setImage:[UIImage imageNamed:@"back-darkGray"] forState:UIControlStateNormal];
-    backBtn.frame = CGRectMake(10, 5, 30, 30);
+    backBtn.frame = CGRectMake(10, _isNoHeaderView?20:5, 30, 30);
     [backBtn addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
     [titlePageTabBar addSubview:backBtn];
-    backBtn.hidden = YES;
+    //backBtn.hidden = YES;
     _pageBarBackBtn = backBtn;
     
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-    shareBtn.frame = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame)-10-30, 5, 30, 30);
-    shareBtn.hidden = YES;
+    shareBtn.frame = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame)-10-30, _isNoHeaderView?20:5, 30, 30);
+    //shareBtn.hidden = YES;
     [titlePageTabBar addSubview:shareBtn];
     _pageBarShareBtn = shareBtn;
+    
+    _pageBarShareBtn.hidden = !_isNoHeaderView;
+    _pageBarBackBtn.hidden = !_isNoHeaderView;
 }
 
 - (void)addFooterView
@@ -135,14 +133,6 @@
     lable.textColor = [UIColor whiteColor];
     lable.text = @"  footerView";
     [footerView addSubview:lable];
-    if (_isNoHeaderView) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame  = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame) - 80, 0, 60, 40);
-        button.titleLabel.font = [UIFont systemFontOfSize:15];
-        [button setTitle:@"GoBack" forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:button];
-    }
     
     self.slidePageScrollView.footerView = footerView;
 }

@@ -21,6 +21,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         _textFont = [UIFont systemFontOfSize:16];
+        _selectedTextFont = [UIFont systemFontOfSize:19];
         _textColor = [UIColor darkTextColor];
         _selectedTextColor = [UIColor redColor];
         _horIndicatorColor = [UIColor redColor];
@@ -93,6 +94,9 @@
 {
     if (_selectBtn) {
         _selectBtn.selected = NO;
+        if (_selectedTextFont) {
+            _selectBtn.titleLabel.font = _textFont;
+        }
     }
     _selectBtn = button;
     
@@ -100,8 +104,13 @@
     frame.origin.x = CGRectGetMinX(_selectBtn.frame);
     [UIView animateWithDuration:0.2 animations:^{
         _horIndicator.frame = frame;
+        
     }];
+    
     _selectBtn.selected = YES;
+    if (_selectedTextFont) {
+        _selectBtn.titleLabel.font = _selectedTextFont;
+    }
 }
 
 #pragma mark - action method
