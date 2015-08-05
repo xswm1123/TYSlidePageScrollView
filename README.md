@@ -57,6 +57,7 @@ customViewController inherit TYSlidePageScrollViewController
 
 @end
 ```
+    On demo,it have more example and usage.
 
 ## Delegate
 
