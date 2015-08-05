@@ -22,6 +22,7 @@ TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initW
     [_slidePageScrollView reloadData];
 ```
 * **use TYSlidePageScrollViewController**
+
 customViewController inherit TYSlidePageScrollViewController
 ```objc
 // on customViewController
