@@ -98,3 +98,7 @@ On demo,it have more example and usage.
 
 @end
 ```
+
+### Contact
+if you find bug，please pull reqeust me <br>
+if you have good idea，cntact me, Email:122074809@qq.com
