@@ -33,7 +33,7 @@
     self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         [weakSelf delayInSeconds:1.0 block:^{
-            _itemNum += 4;
+            weakSelf.itemNum += 4;
             [weakSelf.tableView.footer endRefreshing];
             [weakSelf.tableView reloadData];
         }];
