@@ -1,5 +1,6 @@
 # TYSlidePageScrollView
 An easy solution to page views or controllers with header and page tabbar,footer
+带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
 
 ## ScreenShot
 
