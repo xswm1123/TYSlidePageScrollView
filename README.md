@@ -31,6 +31,7 @@ customViewController inherit TYSlidePageScrollViewController
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // **the viewController need conform to UIViewControllerDisplayViewDelegate**
     self.viewControllers = @[/*viewControllers*/];
     
     // custom method
