@@ -28,8 +28,8 @@ TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initW
 ```
 * **or use TYSlidePageScrollViewController**
 
-customViewController inherit TYSlidePageScrollViewController
-**the viewController should conform to UIViewControllerDisplayViewDelegate
+customViewController inherit TYSlidePageScrollViewController<br>
+**the viewController should conform to UIViewControllerDisplayViewDelegate**
 
 ```objc
 // on customViewController
