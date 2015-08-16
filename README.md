@@ -2,6 +2,10 @@
 An easy solution to page views or controllers with header and page tabbar,footer<br>
 带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
 
+update v2.0
+add and support auto layout ,and support InterfaceOrientation
+添加并且只支持自动布局，还支持屏幕旋转
+
 ## ScreenShot
 
 ![image](https://github.com/12207480/TYSlidePageScrollView/blob/master/screenshot/slidePageViewDemo.gif)
@@ -25,6 +29,8 @@ TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initW
 * **or use TYSlidePageScrollViewController**
 
 customViewController inherit TYSlidePageScrollViewController
+**the viewController should conform to UIViewControllerDisplayViewDelegate
+
 ```objc
 // on customViewController
 - (void)viewDidLoad {
@@ -58,6 +64,16 @@ customViewController inherit TYSlidePageScrollViewController
 - (void)switchToPageIndex:(NSInteger)index;
 
 @end
+```
+* **set default page index**
+```objc
+// if you want to set default page index ,you can do it on this method
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self.slidePageScrollView scrollToPageIndex:/*default index*/ animated:NO];
+}
+
 ```
 On demo,it have more example and usage.
 
