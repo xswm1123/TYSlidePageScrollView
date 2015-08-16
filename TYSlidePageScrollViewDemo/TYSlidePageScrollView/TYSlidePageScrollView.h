@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, TYPageTabBarState) {
 
 @property (nonatomic, strong) UIView *footerView; // defult nil
 
-@property (nonatomic, assign, readonly) NSInteger curPageIndex;
+@property (nonatomic, assign, readonly) NSInteger curPageIndex; // defult 0
 
 // 当滚动到scroll宽度的百分之多少 改变index 
 @property (nonatomic, assign) CGFloat changeToNextIndexWhenScrollToWidthOfPercent; // 0.0~0.1 default 0.5, when scroll to half of width, change to next index
@@ -78,7 +78,7 @@ typedef NS_ENUM(NSUInteger, TYPageTabBarState) {
 
 - (void)reloadData;
 
-- (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated;
+- (void)scrollToPageIndex:(NSInteger)index animated:(BOOL)animated;
 
 - (UIScrollView *)pageScrollViewForIndex:(NSInteger)index;
 

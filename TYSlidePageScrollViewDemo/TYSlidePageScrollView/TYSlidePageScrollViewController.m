@@ -19,6 +19,8 @@
     // Do any additional setup after loading the view.
     
     [self addSlidePageScrollView];
+    
+    [self layoutSlidePageScrollView];
 }
 
 - (void)addSlidePageScrollView
@@ -28,6 +30,15 @@
     slidePageScrollView.delegate = self;
     [self.view addSubview:slidePageScrollView];
     _slidePageScrollView = slidePageScrollView;
+}
+
+- (void)layoutSlidePageScrollView
+{
+    _slidePageScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
 }
 
 #pragma mark - TYSlidePageScrollViewDataSource

@@ -38,7 +38,6 @@
     [self addFooterView];
     
     [self.slidePageScrollView reloadData];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -53,22 +52,42 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+// if you want to set default page index ,you can do it on this method
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    if (_isNoHeaderView) {
+        [self.slidePageScrollView scrollToPageIndex:1 animated:NO];
+    }
+}
+
 - (void)addBackNavButton
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setImage:[UIImage imageNamed:@"back-hover"] forState:UIControlStateNormal];
-    backBtn.frame = CGRectMake(10, 25, 30, 30);
+    //backBtn.frame = CGRectMake(10, 25, 30, 30);
     [backBtn addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.slidePageScrollView addSubview:backBtn];
     _backBtn = backBtn;
     
+    backBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.slidePageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:backBtn attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.slidePageScrollView attribute:NSLayoutAttributeLeft multiplier:1 constant:10]];
+    [self.slidePageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:backBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.slidePageScrollView attribute:NSLayoutAttributeTop multiplier:1 constant:25]];
+    [backBtn addConstraint:[NSLayoutConstraint constraintWithItem:backBtn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:30]];
+    [backBtn addConstraint:[NSLayoutConstraint constraintWithItem:backBtn attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:30]];
+    
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setImage:[UIImage imageNamed:@"share-hover"] forState:UIControlStateNormal];
-    shareBtn.frame = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame)-10-30, 25, 30, 30);
-
+    //shareBtn.frame = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame)-10-30, 25, 30, 30);
+    [shareBtn addTarget:self action:@selector(shareClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.slidePageScrollView addSubview:shareBtn];
     _shareBtn = shareBtn;
+    
+    shareBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.slidePageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:shareBtn attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.slidePageScrollView attribute:NSLayoutAttributeRight multiplier:1 constant:-10]];
+    [self.slidePageScrollView addConstraint:[NSLayoutConstraint constraintWithItem:shareBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.slidePageScrollView attribute:NSLayoutAttributeTop multiplier:1 constant:25]];
+    [shareBtn addConstraint:[NSLayoutConstraint constraintWithItem:shareBtn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:30]];
+    [shareBtn addConstraint:[NSLayoutConstraint constraintWithItem:shareBtn attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:30]];
     
     _backBtn.hidden = _isNoHeaderView;
     _shareBtn.hidden = _isNoHeaderView;
@@ -111,13 +130,11 @@
     backBtn.frame = CGRectMake(10, _isNoHeaderView?20:5, 30, 30);
     [backBtn addTarget:self action:@selector(navGoBack:) forControlEvents:UIControlEventTouchUpInside];
     [titlePageTabBar addSubview:backBtn];
-    //backBtn.hidden = YES;
     _pageBarBackBtn = backBtn;
     
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
     shareBtn.frame = CGRectMake(CGRectGetWidth(self.slidePageScrollView.frame)-10-30, _isNoHeaderView?20:5, 30, 30);
-    //shareBtn.hidden = YES;
     [titlePageTabBar addSubview:shareBtn];
     _pageBarShareBtn = shareBtn;
     
@@ -173,6 +190,12 @@
 {
     button.selected = !button.isSelected;
     self.slidePageScrollView.pageTabBarIsStopOnTop = !button.isSelected;
+}
+
+- (void)shareClicked:(UIButton *)button
+{
+    //[self.slidePageScrollView scrollToPageIndex:(self.slidePageScrollView.curPageIndex+1)%4 animated:YES];
+    [self.slidePageScrollView reloadData];
 }
 
 - (void)navGoBack:(UIButton *)button
