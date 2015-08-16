@@ -60,6 +60,10 @@
     
     if ([viewController respondsToSelector:@selector(displayView)]) {
         return [viewController displayView];
+    }else if([viewController isKindOfClass:[UITableViewController class]]){
+        return ((UITableViewController *)viewController).tableView;
+    }else if ([viewController isKindOfClass:[UICollectionViewController class]]){
+        return ((UICollectionViewController *)viewController).collectionView;
     }else if ([viewController.view isKindOfClass:[UIScrollView class]]) {
         return (UIScrollView *)viewController.view;
     }
