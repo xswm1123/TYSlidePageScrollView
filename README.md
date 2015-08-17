@@ -2,8 +2,8 @@
 An easy solution to page views or controllers with header and page tabbar,footer<br>
 带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
 
-update v2.0
-add and support auto layout ,and support InterfaceOrientation
+**update v2.0**<br>
+add and support auto layout ,and support InterfaceOrientation<br>
 添加并且只支持自动布局，还支持屏幕旋转
 
 ## ScreenShot
