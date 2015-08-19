@@ -69,7 +69,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
-    _headerContentViewPanGestureEnabe = NO;
+    _headerContentViewPanGestureEnable = NO;
     _pageTabBarStopOnTopHeight = 0;
     _pageTabBarIsStopOnTop = YES;
     _automaticallyAdjustsScrollViewInsets = NO;
@@ -140,10 +140,10 @@
     [self addSubview:headerContentView];
     _headerContentView = headerContentView;
     
-    self.headerContentViewPanGestureEnabe = _headerContentViewPanGestureEnabe;
+    self.headerContentViewPanGestureEnable = _headerContentViewPanGestureEnable;
 }
 
-- (void)setHeaderContentViewPanGestureEnabe:(BOOL)headerContentViewPanGestureEnabe
+- (void)setHeaderContentViewPanGestureEnable:(BOOL)headerContentViewPanGestureEnabe
 {
     if (!headerContentViewPanGestureEnabe) {
         [_headerContentView removeGestureRecognizer:_headerContentPanGusture];

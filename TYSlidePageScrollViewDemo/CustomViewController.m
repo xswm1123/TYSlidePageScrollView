@@ -28,7 +28,7 @@
     self.viewControllers = @[[self creatViewControllerPage:0 itemNum:6],[self creatViewControllerPage:1 itemNum:16],[self creatViewControllerPage:2 itemNum:6],[self creatViewControllerPage:3 itemNum:12]];
     
     self.slidePageScrollView.pageTabBarStopOnTopHeight = _isNoHeaderView ? 0 : 20;
-    self.slidePageScrollView.headerContentViewPanGestureEnabe = _isNoHeaderView ? NO : YES;
+    self.slidePageScrollView.headerContentViewPanGestureEnable = _isNoHeaderView ? NO : YES;
     [self addBackNavButton];
     
     [self addHeaderView];
