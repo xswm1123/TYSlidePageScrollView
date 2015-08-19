@@ -6,6 +6,9 @@ An easy solution to page views or controllers with header and page tabbar,footer
 add and support auto layout ,and support InterfaceOrientation<br>
 添加并且只支持自动布局，还支持屏幕旋转
 
+**update v2.1**<br>
+add parallaxHeaderEffect (BOOL parallaxHeaderEffect) and header can vertical scroll(BOOL headerContentViewPanGestureEnabe)
+添加弹性视差效果，可垂直以滑动header了
 ## ScreenShot
 
 ![image](https://github.com/12207480/TYSlidePageScrollView/blob/master/screenshot/slidePageViewDemo.gif)
