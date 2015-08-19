@@ -23,23 +23,25 @@
     self.tableView.tableFooterView = [[UIView alloc]init];
     __typeof (self) __weak weakSelf = self;
     
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        [weakSelf delayInSeconds:1.0 block:^{
-            [weakSelf.tableView.header endRefreshing];
-         }];
-    }];
-    
-    self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        // 进入刷新状态后会自动调用这个block
-        [weakSelf delayInSeconds:1.0 block:^{
-            weakSelf.itemNum += 4;
-            [weakSelf.tableView.footer endRefreshing];
-            [weakSelf.tableView reloadData];
+    if (_isNeedRefresh) {
+        self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            // 进入刷新状态后会自动调用这个block
+            [weakSelf delayInSeconds:1.0 block:^{
+                [weakSelf.tableView.header endRefreshing];
+            }];
         }];
-    }];
+        
+        self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+            // 进入刷新状态后会自动调用这个block
+            [weakSelf delayInSeconds:1.0 block:^{
+                weakSelf.itemNum += 4;
+                [weakSelf.tableView.footer endRefreshing];
+                [weakSelf.tableView reloadData];
+            }];
+        }];
+    }
 }
-
+    
 - (void)delayInSeconds:(CGFloat)delayInSeconds block:(dispatch_block_t) block
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC),  dispatch_get_main_queue(), block);

@@ -11,4 +11,5 @@
 @interface TableViewController : UITableViewController
 @property (nonatomic ,assign) NSInteger itemNum;
 @property (nonatomic ,assign) NSInteger page;
+@property (nonatomic, assign) BOOL isNeedRefresh;
 @end

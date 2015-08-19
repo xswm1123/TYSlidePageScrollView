@@ -28,7 +28,7 @@
     self.viewControllers = @[[self creatViewControllerPage:0 itemNum:6],[self creatViewControllerPage:1 itemNum:16],[self creatViewControllerPage:2 itemNum:6],[self creatViewControllerPage:3 itemNum:12]];
     
     self.slidePageScrollView.pageTabBarStopOnTopHeight = _isNoHeaderView ? 0 : 20;
-    
+    self.slidePageScrollView.headerContentViewPanGestureEnabe = _isNoHeaderView ? NO : YES;
     [self addBackNavButton];
     
     [self addHeaderView];
@@ -95,7 +95,7 @@
 
 - (void)addHeaderView
 {
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.slidePageScrollView.frame), 180)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.slidePageScrollView.frame), 200)];
     imageView.image = [UIImage imageNamed:@"CYLoLi"];
     imageView.userInteractionEnabled = YES;
     
@@ -208,6 +208,7 @@
     TableViewController *tableViewVC = [[TableViewController alloc]init];
     tableViewVC.itemNum = num;
     tableViewVC.page = page;
+    tableViewVC.isNeedRefresh = YES;
     return tableViewVC;
 }
 
