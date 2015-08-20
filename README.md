@@ -7,8 +7,8 @@ add and support auto layout ,and support InterfaceOrientation<br>
 添加并且支持自动布局，以及屏幕旋转
 
 **update v2.1**<br>
-add parallaxHeaderEffect (BOOL parallaxHeaderEffect) and header can set vertical scroll(BOOL headerContentViewPanGestureEnabe)
-添加弹性视差效果，可以设置垂直滑动header了
+add parallaxHeaderEffect (BOOL parallaxHeaderEffect) and set PanGesture can drag header vertical scroll(BOOL headerContentViewPanGestureEnabe)<br>
+添加弹性视差效果，可以设置 拖动header 垂直滑动了
 ## ScreenShot
 
 ![image](https://github.com/12207480/TYSlidePageScrollView/blob/master/screenshot/slidePageViewDemo.gif)
