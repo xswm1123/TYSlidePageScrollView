@@ -81,6 +81,18 @@ customViewController inherit TYSlidePageScrollViewController<br>
 ```
 On demo,it have more example and usage.
 
+## Protocol
+
+```objc
+@protocol UIViewControllerDisplayViewDelegate <NSObject>
+
+// you should implement the method, because I don't know the view you want to display
+// the view need inherit UIScrollView (UITableview inherit it) ,also vertical scroll 
+- (UIScrollView *)displayView;
+
+@end
+```
+
 ## Delegate
 
 ```objc
