@@ -33,8 +33,14 @@
 
 - (instancetype)initWithTitleArray:(NSArray *)titleArray
 {
+    return [self initWithTitleArray:titleArray imageNameArray:nil];
+}
+
+- (instancetype)initWithTitleArray:(NSArray *)titleArray imageNameArray:(NSArray *)imageNameArray
+{
     if (self = [super init]) {
         _titleArray = titleArray;
+        _imageArray = imageNameArray;
         [self addTitleBtnArray];
     }
     return self;
@@ -70,6 +76,13 @@
         [button setTitle:_titleArray[index] forState:UIControlStateNormal];
         [button setTitleColor:_textColor forState:UIControlStateNormal];
         [button setTitleColor:_selectedTextColor forState:UIControlStateSelected];
+        if (index < _imageArray.count) {
+            NSString *imageName = _imageArray[index];
+            if (imageName.length > 0) {
+                [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+            }
+        }
+        
         [button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:button];
         [btnArray addObject:button];
@@ -84,9 +97,7 @@
 
 - (void)removeTitleBtnArray
 {
-    for (UIButton *button in _btnArray) {
-        [button removeFromSuperview];
-    }
+    [_btnArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _btnArray = nil;
 }
 

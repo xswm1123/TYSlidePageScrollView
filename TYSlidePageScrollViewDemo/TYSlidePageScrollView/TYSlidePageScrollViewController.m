@@ -55,6 +55,7 @@
 
     if (![self.viewControllers containsObject:viewController]) {
         // don't forget addChildViewController
+        viewController.view.frame = self.view.frame;
         [self addChildViewController:viewController];
     }
     

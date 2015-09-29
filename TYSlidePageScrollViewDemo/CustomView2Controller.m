@@ -114,7 +114,8 @@
     tableViewVC.itemNum = num;
     tableViewVC.page = page;
     
-    // don't forget addChildViewController
+    // don't forget set frame and addChildViewController
+    tableViewVC.view.frame = self.view.frame;
     [self addChildViewController:tableViewVC];
 }
 
