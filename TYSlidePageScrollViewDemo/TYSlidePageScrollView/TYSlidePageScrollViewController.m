@@ -54,7 +54,7 @@
     UIViewController<UIViewControllerDisplayViewDelegate> *viewController = _viewControllers[index];
 
     if (![self.viewControllers containsObject:viewController]) {
-        // don't forget addChildViewController
+        // don't forget set frame and addChildViewController
         viewController.view.frame = self.view.frame;
         [self addChildViewController:viewController];
     }
