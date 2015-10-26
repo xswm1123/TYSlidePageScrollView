@@ -59,7 +59,7 @@
         [self addChildViewController:viewController];
     }
     
-    if ([viewController respondsToSelector:@selector(displayView)]) {
+    if ([viewController conformsToProtocol:@protocol(UIViewControllerDisplayViewDelegate)]) {
         return [viewController displayView];
     }else if([viewController isKindOfClass:[UITableViewController class]]){
         return ((UITableViewController *)viewController).tableView;
