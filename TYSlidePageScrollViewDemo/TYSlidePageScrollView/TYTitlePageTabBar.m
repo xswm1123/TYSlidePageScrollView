@@ -26,6 +26,7 @@
         _selectedTextColor = [UIColor redColor];
         _horIndicatorColor = [UIColor redColor];
         _horIndicatorHeight = 2;
+        
         [self addHorIndicatorView];
     }
     return self;
@@ -106,21 +107,26 @@
     if (_selectBtn) {
         _selectBtn.selected = NO;
         if (_selectedTextFont) {
+            
             _selectBtn.titleLabel.font = _textFont;
+             
         }
     }
     _selectBtn = button;
     
     CGRect frame = _horIndicator.frame;
-    frame.origin.x = CGRectGetMinX(_selectBtn.frame);
-    [UIView animateWithDuration:0.2 animations:^{
-        _horIndicator.frame = frame;
+    frame.origin.x = CGRectGetMinX(_selectBtn.frame) + _horIndicatorSpacing;
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+         _horIndicator.frame = frame;
+    } completion:^(BOOL finished) {
         
     }];
     
     _selectBtn.selected = YES;
     if (_selectedTextFont) {
         _selectBtn.titleLabel.font = _selectedTextFont;
+        
     }
 }
 
@@ -128,6 +134,11 @@
 // clicked
 - (void)tabButtonClicked:(UIButton *)button
 {
+    
+    //防止重新点击
+    if (_selectBtn == button) {
+        return;
+    }
     [self selectButton:button];
     
     // need ourself call this method
@@ -158,7 +169,9 @@
     if (_selectBtn) {
         curIndex = [_btnArray indexOfObject:_selectBtn];
     }
-    _horIndicator.frame = CGRectMake(curIndex*(btnWidth+_titleSpacing)+_edgeInset.left, CGRectGetHeight(self.frame) - _horIndicatorHeight, btnWidth, _horIndicatorHeight);
+    
+    _horIndicator.frame = CGRectMake(curIndex*(btnWidth+_titleSpacing)+_edgeInset.left + _horIndicatorSpacing, CGRectGetHeight(self.frame) - _horIndicatorHeight, btnWidth - _horIndicatorSpacing * 2, _horIndicatorHeight);
+
 }
 
 /*

@@ -25,6 +25,8 @@
 @property (nonatomic, assign) UIEdgeInsets edgeInset;   // view edge Inset
 @property (nonatomic, assign) CGFloat titleSpacing;     // title button spacing
 
+@property (nonatomic, assign) CGFloat horIndicatorSpacing;
+
 - (instancetype)initWithTitleArray:(NSArray *)titleArray;
 
 - (instancetype)initWithTitleArray:(NSArray *)titleArray imageNameArray:(NSArray *)imageNameArray;
