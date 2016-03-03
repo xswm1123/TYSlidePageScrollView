@@ -28,7 +28,7 @@
     self.viewControllers = @[[self creatViewControllerPage:0 itemNum:6],[self creatViewControllerPage:1 itemNum:16],[self creatViewControllerPage:2 itemNum:6],[self creatViewControllerPage:3 itemNum:12]];
     
     self.slidePageScrollView.pageTabBarStopOnTopHeight = _isNoHeaderView ? 0 : 20;
-    self.slidePageScrollView.headerContentViewPanGestureEnable = _isNoHeaderView ? NO : YES;
+    self.slidePageScrollView.headerViewScrollEnable = _isNoHeaderView ? NO : YES;
     [self addBackNavButton];
     
     [self addHeaderView];
@@ -97,11 +97,11 @@
 {
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.slidePageScrollView.frame), 200)];
     imageView.image = [UIImage imageNamed:@"CYLoLi"];
-    imageView.userInteractionEnabled = YES;
     
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 75, 100, 30)];
-    label.textColor = [UIColor orangeColor];
-    label.text = @"headerView";
+    UIButton *label = [UIButton buttonWithType:UIButtonTypeSystem];
+    label.frame = CGRectMake(10, 75, 100, 30);
+    [label setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal] ;
+    [label setTitle:@"Button tap me!" forState:UIControlStateNormal];
     [imageView addSubview:label];
     UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 105, 320, 30)];
     label1.textColor = [UIColor orangeColor];

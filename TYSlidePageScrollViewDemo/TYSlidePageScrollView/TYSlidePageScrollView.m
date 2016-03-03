@@ -69,7 +69,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
-    _headerContentViewPanGestureEnable = NO;
+    _headerViewScrollEnable = YES;
     _pageTabBarStopOnTopHeight = 0;
     _pageTabBarIsStopOnTop = YES;
     _automaticallyAdjustsScrollViewInsets = NO;
@@ -139,23 +139,7 @@
     UIView *headerContentView = [[UIView alloc]init];
     [self addSubview:headerContentView];
     _headerContentView = headerContentView;
-    
-    self.headerContentViewPanGestureEnable = _headerContentViewPanGestureEnable;
-}
 
-- (void)setHeaderContentViewPanGestureEnable:(BOOL)headerContentViewPanGestureEnabe
-{
-    if (!headerContentViewPanGestureEnabe) {
-        [_headerContentView removeGestureRecognizer:_headerContentPanGusture];
-        _headerContentPanGusture = nil;
-        return;
-    }
-    
-    if (_headerContentPanGusture == nil) {
-        UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        [_headerContentView addGestureRecognizer:panRecognizer];
-        _headerContentPanGusture = panRecognizer;
-    }
 }
 
 #pragma mark - private method
@@ -431,33 +415,16 @@
     return [_pageViewArray indexOfObject:pageScrollView];
 }
 
-#pragma mark - UIPanGestureRecognizer
+#pragma mark - hitTest
 
-- (void)handlePan:(UIPanGestureRecognizer *)recognizer
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    CGPoint translatedPoint = [recognizer translationInView:self];
-    CGFloat pageTabbarHeight = CGRectGetHeight(_pageTabBar.frame);
+    UIView *hitView = [super hitTest:point withEvent:event];
     
-    UIScrollView *pageScrollView = _pageViewArray[_curPageIndex];
-    if (pageScrollView.contentOffset.y <= -_headerContentViewHeight && translatedPoint.y > 0) {
-        if (pageScrollView.contentOffset.y != -_headerContentViewHeight) {
-            pageScrollView.contentOffset = CGPointMake(pageScrollView.contentOffset.x, -_headerContentViewHeight);
-            _pageScrollViewOffsetY = pageScrollView.contentOffset.y;
-        }
-        return;
-    }else if (pageScrollView.contentOffset.y >= -(pageTabbarHeight + _pageTabBarStopOnTopHeight) && translatedPoint.y < 0) {
-        if (pageScrollView.contentOffset.y != -(pageTabbarHeight + _pageTabBarStopOnTopHeight)) {
-            pageScrollView.contentOffset =  CGPointMake(pageScrollView.contentOffset.x,-(pageTabbarHeight + _pageTabBarStopOnTopHeight));
-            _pageScrollViewOffsetY = pageScrollView.contentOffset.y;
-        }
-        return;
+    if ( _headerViewScrollEnable && (hitView == _headerContentView || (_headerView && hitView == _headerView) ||( _pageTabBar && hitView == _pageTabBar))) {
+        return [self pageScrollViewForIndex:_curPageIndex];
     }
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        _pageScrollViewOffsetY = pageScrollView.contentOffset.y;
-    }else if(recognizer.state == UIGestureRecognizerStateChanged) {
-        pageScrollView.contentOffset = CGPointMake(pageScrollView.contentOffset.x, _pageScrollViewOffsetY-translatedPoint.y);
-    }
+    return hitView;
 }
 
 #pragma mark - delegate

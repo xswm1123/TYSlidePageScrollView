@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, TYPageTabBarState) {
 
 @property (nonatomic, assign) BOOL automaticallyAdjustsScrollViewInsets; // default NO;(iOS 7) it will setup viewController automaticallyAdjustsScrollViewInsets, because this property (YES) cause scrollView layout no correct
 
-@property (nonatomic, assign) BOOL headerContentViewPanGestureEnable; // default NO,if YES header also can let to veritical scroll (header区域是否可以上下滑动)
+@property (nonatomic, assign) BOOL headerViewScrollEnable; // default YES， header let to veritical scroll (header区域是否可以上下滑动)
 
 @property (nonatomic, strong) UIView *headerView; // defult nil，don't forget set height
 @property (nonatomic, assign) BOOL parallaxHeaderEffect; // def NO, Parallax effect (弹性视差效果)
