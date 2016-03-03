@@ -1,15 +1,13 @@
 # TYSlidePageScrollView
-An easy solution to page views or controllers with header and page tabbar,footer<br>
+ An easy solution to page views or controllers with header and page tabbar,footer<br>
 带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
 
-**update v2.0**<br>
 add and support auto layout ,and support InterfaceOrientation<br>
 添加并且支持自动布局，以及屏幕旋转
 
-**update v2.1**<br>
 add parallaxHeaderEffect (BOOL parallaxHeaderEffect) default NO <br>
 set PanGesture can drag header vertical scroll(BOOL headerContentViewPanGestureEnabe) default NO <br>
-添加弹性视差效果，可以设置 拖动header 垂直滑动了
+添加弹性视差效果，优化 header 垂直滑动
 ## ScreenShot
 
 ![image](https://github.com/12207480/TYSlidePageScrollView/blob/master/screenshot/slidePageViewDemo.gif)
