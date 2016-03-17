@@ -1,6 +1,6 @@
 # TYSlidePageScrollView
 
-这个写的不好，只是提供一种思路。
+(Deprecated)
 
  An easy solution to page views or controllers with header and page tabbar,footer<br>
 带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
