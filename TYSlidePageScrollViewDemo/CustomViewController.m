@@ -9,6 +9,7 @@
 #import "CustomViewController.h"
 #import "TYTitlePageTabBar.h"
 #import "TableViewController.h"
+#import "CollectionViewController.h"
 
 @interface CustomViewController ()
 @property (nonatomic, weak) UIButton *backBtn;
@@ -205,11 +206,16 @@
 
 - (UIViewController *)creatViewControllerPage:(NSInteger)page itemNum:(NSInteger)num
 {
-    TableViewController *tableViewVC = [[TableViewController alloc]init];
-    tableViewVC.itemNum = num;
-    tableViewVC.page = page;
-    tableViewVC.isNeedRefresh = YES;
-    return tableViewVC;
+    if (page%2 == 0) {
+        TableViewController *tableViewVC = [[TableViewController alloc]init];
+        tableViewVC.itemNum = num;
+        tableViewVC.page = page;
+        tableViewVC.isNeedRefresh = YES;
+        return tableViewVC;
+    }else {
+        CollectionViewController *collectVC = [[CollectionViewController alloc]init];
+        return collectVC;
+    }
 }
 
 //- (void)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView horizenScrollToPageIndex:(NSInteger)index

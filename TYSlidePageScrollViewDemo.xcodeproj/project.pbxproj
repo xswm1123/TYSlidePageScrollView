@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B0D61DEB1C9AEADB008D2631 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D61DEA1C9AEADB008D2631 /* CollectionViewController.m */; };
 		B0E4283B1B84A21500A357F2 /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E4283A1B84A21500A357F2 /* UINavigationBar+Awesome.m */; };
 		D33F73411B609274008FE512 /* UIScrollView+ty_swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D33F73401B609274008FE512 /* UIScrollView+ty_swizzle.m */; };
 		D358E3021B5C8BCC00EB8FCC /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = D358E2D81B5C8BCC00EB8FCC /* MJRefreshAutoFooter.m */; };
@@ -56,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B0D61DE91C9AEADB008D2631 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		B0D61DEA1C9AEADB008D2631 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		B0E428391B84A21500A357F2 /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
 		B0E4283A1B84A21500A357F2 /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		D33F733F1B609274008FE512 /* UIScrollView+ty_swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ty_swizzle.h"; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				D37BBAAF1B6603C1004275F0 /* CustomView2Controller.m */,
 				D36FA1621B5757CE0040F866 /* TableViewController.h */,
 				D36FA1631B5757CE0040F866 /* TableViewController.m */,
+				B0D61DE91C9AEADB008D2631 /* CollectionViewController.h */,
+				B0D61DEA1C9AEADB008D2631 /* CollectionViewController.m */,
 				D36FA13F1B57341F0040F866 /* Main.storyboard */,
 				D36FA1421B57341F0040F866 /* Images.xcassets */,
 				D36FA1441B57341F0040F866 /* LaunchScreen.xib */,
@@ -448,6 +453,7 @@
 				D358E3021B5C8BCC00EB8FCC /* MJRefreshAutoFooter.m in Sources */,
 				D358E3091B5C8BCC00EB8FCC /* MJRefreshAutoStateFooter.m in Sources */,
 				D358E30B1B5C8BCC00EB8FCC /* MJRefreshBackNormalFooter.m in Sources */,
+				B0D61DEB1C9AEADB008D2631 /* CollectionViewController.m in Sources */,
 				D358E30D1B5C8BCC00EB8FCC /* MJRefreshGifHeader.m in Sources */,
 				D358E3121B5C8BCC00EB8FCC /* UIScrollView+MJExtension.m in Sources */,
 				D36FA1611B573D630040F866 /* TYBasePageTabBar.m in Sources */,
