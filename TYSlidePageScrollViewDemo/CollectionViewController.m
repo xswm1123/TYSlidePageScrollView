@@ -13,6 +13,8 @@
 @property (nonatomic, weak) UICollectionView *collectionView;
 @end
 
+static NSString *const cellId = @"collectCellId";
+
 @implementation CollectionViewController
 
 - (void)viewDidLoad {
@@ -20,6 +22,8 @@
     // Do any additional setup after loading the view.
     
     [self addCollectionView];
+    
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:cellId];
 }
 
 - (void)addCollectionView
@@ -34,8 +38,6 @@
     collectionView.dataSource = self;
     [self.view addSubview:collectionView];
     _collectionView = collectionView;
-    
-    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"collectCellId"];
 }
 
 #pragma mark - UIViewControllerDisplayViewDelegate
@@ -59,7 +61,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"collectCellId" forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     cell.backgroundColor = [UIColor colorWithRed:255/255.0 green:204/255.0 blue:204/255.0 alpha:1.0];
     return cell;
 }
