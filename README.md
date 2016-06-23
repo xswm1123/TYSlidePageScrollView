@@ -1,4 +1,7 @@
 # TYSlidePageScrollView
+
+(Deprecated) 已废弃 你可以看看[TYPagerController](https://github.com/12207480/TYPagerController)
+
  An easy solution to page views or controllers with header and page tabbar,footer<br>
 带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
 
