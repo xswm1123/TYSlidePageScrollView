@@ -419,7 +419,26 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
+    if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <= 0.01) {
+        return nil;
+    }
+    
     UIView *hitView = [super hitTest:point withEvent:event];
+    
+    if (hitView == _headerContentView) {
+        for (UIView *subview in [hitView.subviews reverseObjectEnumerator]) {
+            if (subview == _headerView
+                && [subview pointInside:point withEvent:event]) {
+                for (UIView *subSubview in [subview.subviews reverseObjectEnumerator]) {
+                    CGPoint convertedPoint = [subSubview convertPoint:point fromView:hitView];
+                    UIView *hitTestView = [subSubview hitTest:convertedPoint withEvent:event];
+                    if (hitTestView) {
+                        return hitTestView;
+                    }
+                }
+            }
+        }
+    }
     
     if ( _headerViewScrollEnable && (hitView == _headerContentView || (_headerView && hitView == _headerView) ||( _pageTabBar && hitView == _pageTabBar))) {
         return [self pageScrollViewForIndex:_curPageIndex];
