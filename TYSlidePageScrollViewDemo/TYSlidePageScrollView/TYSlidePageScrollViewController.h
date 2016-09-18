@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "TYSlidePageScrollView.h"
 
-@protocol TYDisplayScrollViewDelegate <NSObject>
+@protocol TYDisplayPageScrollViewDelegate <NSObject>
 
 // you should implement the method, because I don't know the view you want to display
 // the view need inherit UIScrollView (UITableview inherit it) ,also vertical scroll 
-- (UIScrollView *)displayScrollView;
+- (UIScrollView *)displayPageScrollView;
 
 @end
 

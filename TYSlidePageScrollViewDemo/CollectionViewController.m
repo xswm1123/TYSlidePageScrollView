@@ -9,7 +9,7 @@
 #import "CollectionViewController.h"
 #import "TYSlidePageScrollViewController.h"
 
-@interface CollectionViewController ()<UICollectionViewDataSource,TYDisplayScrollViewDelegate>
+@interface CollectionViewController ()<UICollectionViewDataSource,TYDisplayPageScrollViewDelegate>
 @property (nonatomic, weak) UICollectionView *collectionView;
 @end
 
@@ -42,7 +42,7 @@ static NSString *const cellId = @"collectCellId";
 
 #pragma mark - UIViewControllerDisplayViewDelegate
 
-- (UIScrollView *)displayScrollView
+- (UIScrollView *)displayPageScrollView
 {
     return _collectionView;
 }

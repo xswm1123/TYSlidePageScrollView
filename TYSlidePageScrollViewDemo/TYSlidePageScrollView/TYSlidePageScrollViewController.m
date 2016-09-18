@@ -51,7 +51,7 @@
 
 - (UIScrollView *)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageVerticalScrollViewForIndex:(NSInteger)index
 {
-    UIViewController<TYDisplayScrollViewDelegate> *viewController = _viewControllers[index];
+    UIViewController<TYDisplayPageScrollViewDelegate> *viewController = _viewControllers[index];
 
     if (![self.childViewControllers containsObject:viewController]) {
         // don't forget set frame and addChildViewController
@@ -59,8 +59,8 @@
         [self addChildViewController:viewController];
     }
     
-    if ([viewController respondsToSelector:@selector(displayScrollView)]) {
-        return [viewController displayScrollView];
+    if ([viewController respondsToSelector:@selector(displayPageScrollView)]) {
+        return [viewController displayPageScrollView];
     }else if([viewController isKindOfClass:[UITableViewController class]]){
         return ((UITableViewController *)viewController).tableView;
     }else if ([viewController isKindOfClass:[UICollectionViewController class]]){
