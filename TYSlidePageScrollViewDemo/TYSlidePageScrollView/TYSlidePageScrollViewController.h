@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "TYSlidePageScrollView.h"
 
-@protocol UIViewControllerDisplayViewDelegate <NSObject>
+@protocol TYDisplayScrollViewDelegate <NSObject>
 
 // you should implement the method, because I don't know the view you want to display
 // the view need inherit UIScrollView (UITableview inherit it) ,also vertical scroll 
-- (UIScrollView *)displayView;
+- (UIScrollView *)displayScrollView;
 
 @end
 
@@ -21,6 +21,6 @@
 
 @property (nonatomic, weak, readonly) TYSlidePageScrollView *slidePageScrollView;
 
-// the viewController need conform to UIViewControllerDisplayViewDelegate
+// the viewController need conform to TYDisplayScrollViewDelegate
 @property (nonatomic, strong) NSArray   *viewControllers;
 @end
