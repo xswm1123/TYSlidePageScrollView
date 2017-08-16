@@ -26,6 +26,7 @@
         _selectedTextColor = [UIColor redColor];
         _horIndicatorColor = [UIColor redColor];
         _horIndicatorHeight = 2;
+        
         [self addHorIndicatorView];
     }
     return self;
@@ -33,8 +34,14 @@
 
 - (instancetype)initWithTitleArray:(NSArray *)titleArray
 {
+    return [self initWithTitleArray:titleArray imageNameArray:nil];
+}
+
+- (instancetype)initWithTitleArray:(NSArray *)titleArray imageNameArray:(NSArray *)imageNameArray
+{
     if (self = [super init]) {
         _titleArray = titleArray;
+        _imageArray = imageNameArray;
         [self addTitleBtnArray];
     }
     return self;
@@ -70,6 +77,13 @@
         [button setTitle:_titleArray[index] forState:UIControlStateNormal];
         [button setTitleColor:_textColor forState:UIControlStateNormal];
         [button setTitleColor:_selectedTextColor forState:UIControlStateSelected];
+        if (index < _imageArray.count) {
+            NSString *imageName = _imageArray[index];
+            if (imageName.length > 0) {
+                [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+            }
+        }
+        
         [button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:button];
         [btnArray addObject:button];
@@ -84,9 +98,7 @@
 
 - (void)removeTitleBtnArray
 {
-    for (UIButton *button in _btnArray) {
-        [button removeFromSuperview];
-    }
+    [_btnArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _btnArray = nil;
 }
 
@@ -95,21 +107,26 @@
     if (_selectBtn) {
         _selectBtn.selected = NO;
         if (_selectedTextFont) {
+            
             _selectBtn.titleLabel.font = _textFont;
+             
         }
     }
     _selectBtn = button;
     
     CGRect frame = _horIndicator.frame;
-    frame.origin.x = CGRectGetMinX(_selectBtn.frame);
-    [UIView animateWithDuration:0.2 animations:^{
-        _horIndicator.frame = frame;
+    frame.origin.x = CGRectGetMinX(_selectBtn.frame) + _horIndicatorSpacing;
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+         _horIndicator.frame = frame;
+    } completion:^(BOOL finished) {
         
     }];
     
     _selectBtn.selected = YES;
     if (_selectedTextFont) {
         _selectBtn.titleLabel.font = _selectedTextFont;
+        
     }
 }
 
@@ -117,6 +134,11 @@
 // clicked
 - (void)tabButtonClicked:(UIButton *)button
 {
+    
+    //防止重新点击
+    if (_selectBtn == button) {
+        return;
+    }
     [self selectButton:button];
     
     // need ourself call this method
@@ -147,7 +169,9 @@
     if (_selectBtn) {
         curIndex = [_btnArray indexOfObject:_selectBtn];
     }
-    _horIndicator.frame = CGRectMake(curIndex*(btnWidth+_titleSpacing)+_edgeInset.left, CGRectGetHeight(self.frame) - _horIndicatorHeight, btnWidth, _horIndicatorHeight);
+    
+    _horIndicator.frame = CGRectMake(curIndex*(btnWidth+_titleSpacing)+_edgeInset.left + _horIndicatorSpacing, CGRectGetHeight(self.frame) - _horIndicatorHeight, btnWidth - _horIndicatorSpacing * 2, _horIndicatorHeight);
+
 }
 
 /*

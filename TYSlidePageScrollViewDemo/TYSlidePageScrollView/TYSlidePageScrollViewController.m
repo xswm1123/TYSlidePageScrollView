@@ -19,6 +19,8 @@
     // Do any additional setup after loading the view.
     
     [self addSlidePageScrollView];
+    
+    [self layoutSlidePageScrollView];
 }
 
 - (void)addSlidePageScrollView
@@ -28,6 +30,15 @@
     slidePageScrollView.delegate = self;
     [self.view addSubview:slidePageScrollView];
     _slidePageScrollView = slidePageScrollView;
+}
+
+- (void)layoutSlidePageScrollView
+{
+    _slidePageScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slidePageScrollView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
 }
 
 #pragma mark - TYSlidePageScrollViewDataSource
@@ -40,15 +51,20 @@
 
 - (UIScrollView *)slidePageScrollView:(TYSlidePageScrollView *)slidePageScrollView pageVerticalScrollViewForIndex:(NSInteger)index
 {
-    UIViewController<UIViewControllerDisplayViewDelegate> *viewController = _viewControllers[index];
+    UIViewController<TYDisplayPageScrollViewDelegate> *viewController = _viewControllers[index];
 
-    if (![self.viewControllers containsObject:viewController]) {
-        // don't forget addChildViewController
+    if (![self.childViewControllers containsObject:viewController]) {
+        // don't forget set frame and addChildViewController
+        viewController.view.frame = self.view.frame;
         [self addChildViewController:viewController];
     }
     
-    if ([viewController respondsToSelector:@selector(displayView)]) {
-        return [viewController displayView];
+    if ([viewController respondsToSelector:@selector(displayPageScrollView)]) {
+        return [viewController displayPageScrollView];
+    }else if([viewController isKindOfClass:[UITableViewController class]]){
+        return ((UITableViewController *)viewController).tableView;
+    }else if ([viewController isKindOfClass:[UICollectionViewController class]]){
+        return ((UICollectionViewController *)viewController).collectionView;
     }else if ([viewController.view isKindOfClass:[UIScrollView class]]) {
         return (UIScrollView *)viewController.view;
     }

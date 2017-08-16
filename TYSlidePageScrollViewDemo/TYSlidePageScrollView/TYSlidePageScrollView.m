@@ -28,6 +28,14 @@
 @property (nonatomic, weak) UIView          *headerContentView; // contain header and pageTab
 @property (nonatomic, strong) NSArray       *pageViewArray;
 
+@property (nonatomic, weak) UIPanGestureRecognizer *headerContentPanGusture;
+
+@property (nonatomic, strong) NSLayoutConstraint *headerContentYConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *headerContentHeightConstraint;
+
+@property (nonatomic, assign) CGFloat headerContentViewHeight;
+@property (nonatomic, assign) CGFloat pageScrollViewOffsetY;
+
 @end
 
 @implementation TYSlidePageScrollView
@@ -61,6 +69,7 @@
 - (void)setPropertys
 {
     _curPageIndex = 0;
+    _headerViewScrollEnable = YES;
     _pageTabBarStopOnTopHeight = 0;
     _pageTabBarIsStopOnTop = YES;
     _automaticallyAdjustsScrollViewInsets = NO;
@@ -70,10 +79,15 @@
 - (void)resetPropertys
 {
     [self addPageViewKeyPathOffsetWithOldIndex:_curPageIndex newIndex:-1];
-    _curPageIndex = 0;
     [_headerContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [_footerView removeFromSuperview];
     [_pageViewArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    for (NSLayoutConstraint *constraint in self.constraints) {
+        if (constraint.firstItem == _headerContentView ||constraint.firstItem == _horScrollView) {
+            [self removeConstraint:constraint];
+        }
+    }
 }
 
 - (UIViewController *)viewController
@@ -85,6 +99,14 @@
         }
     }
     return nil;
+}
+
+- (void)setViewControllerAdjustsScrollView
+{
+    UIViewController *viewController = [self viewController];
+    if ([viewController respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        viewController.automaticallyAdjustsScrollViewInsets = _automaticallyAdjustsScrollViewInsets;
+    }
 }
 
 - (void)setDelegate:(id<TYSlidePageScrollViewDelegate>)delegate
@@ -109,6 +131,7 @@
     scrollView.pagingEnabled = YES;
     [self addSubview:scrollView];
     _horScrollView = scrollView;
+    
 }
 
 - (void)addHeaderContentView
@@ -116,70 +139,157 @@
     UIView *headerContentView = [[UIView alloc]init];
     [self addSubview:headerContentView];
     _headerContentView = headerContentView;
+
 }
 
 #pragma mark - private method
 
-- (void)setViewControllerAdjustsScrollView
-{
-    UIViewController *viewController = [self viewController];
-    if ([viewController respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
-        viewController.automaticallyAdjustsScrollViewInsets = _automaticallyAdjustsScrollViewInsets;
-    }
-}
-
 - (void)updateHeaderContentView
 {
-    CGFloat viewWidth = CGRectGetWidth(self.frame);
-    CGFloat headerContentViewHieght = 0;
-    
     if (_headerView) {
-        _headerView.frame = CGRectMake(0, 0, viewWidth, CGRectGetHeight(_headerView.frame));
         [_headerContentView addSubview:_headerView];
-        headerContentViewHieght += CGRectGetHeight(_headerView.frame);
     }
     
     if (_pageTabBar) {
         _pageTabBar.praviteDelegate = self;
-        _pageTabBar.frame = CGRectMake(0, headerContentViewHieght, viewWidth, CGRectGetHeight(_pageTabBar.frame));
         [_headerContentView addSubview:_pageTabBar];
-        headerContentViewHieght += CGRectGetHeight(_pageTabBar.frame);
+    }
+}
+
+- (void)layoutHeaderContentView
+{
+    _headerContentView.translatesAutoresizingMaskIntoConstraints = NO;
+    _headerContentYConstraint = [NSLayoutConstraint constraintWithItem:_headerContentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerContentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+    [self addConstraint:_headerContentYConstraint];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_headerContentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+    
+    _headerContentViewHeight = CGRectGetHeight(_headerView.frame)+CGRectGetHeight(_pageTabBar.frame);
+    
+    NSLayoutConstraint *heightConstraint = nil;
+    for (NSLayoutConstraint *constraint in _headerContentView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            heightConstraint = constraint;
+            break;
+        }
     }
     
-    _headerContentView.frame = CGRectMake(0, 0, viewWidth, headerContentViewHieght);
+    if (!heightConstraint) {
+        heightConstraint = [NSLayoutConstraint constraintWithItem:_headerContentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:_headerContentViewHeight];
+        [_headerContentView addConstraint:heightConstraint];
+    }else {
+        heightConstraint.constant = _headerContentViewHeight;
+    }
+    _headerContentHeightConstraint = heightConstraint;
+    
+    if (_headerView) {
+        _headerView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        
+        if (!_pageTabBar){
+            [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_headerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        }
+    }
+
+    if (_pageTabBar) {
+        _pageTabBar.translatesAutoresizingMaskIntoConstraints = NO;
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_pageTabBar attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_pageTabBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_headerView ? _headerView:_headerContentView attribute:_headerView ? NSLayoutAttributeBottom:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_pageTabBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute: NSLayoutAttributeBottom multiplier:1 constant:0]];
+        [_headerContentView addConstraint:[NSLayoutConstraint constraintWithItem:_pageTabBar attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_headerContentView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        
+        NSLayoutConstraint *heightConstraint = nil;
+        for (NSLayoutConstraint *constraint in _pageTabBar.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+                heightConstraint = constraint;
+                break;
+            }
+        }
+        
+        if (!heightConstraint) {
+            [_pageTabBar addConstraint:[NSLayoutConstraint constraintWithItem:_pageTabBar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:CGRectGetHeight(_pageTabBar.frame)]];
+        }else {
+            heightConstraint.constant = CGRectGetHeight(_pageTabBar.frame);
+        }
+    }
 }
 
 - (void)updateFooterView
 {
     if (_footerView) {
-        CGFloat footerViewY = CGRectGetHeight(self.frame)-CGRectGetHeight(_footerView.frame);
-        _footerView.frame = CGRectMake(0, footerViewY, CGRectGetWidth(self.frame), CGRectGetHeight(_footerView.frame));
         [self addSubview:_footerView];
+    }
+}
+
+- (void)layoutFooterView
+{
+    if (_footerView) {
+        _footerView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_footerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_footerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_footerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        
+        NSLayoutConstraint *heightConstraint = nil;
+        for (NSLayoutConstraint *constraint in _footerView.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+                heightConstraint = constraint;
+                break;
+            }
+        }
+        
+        if (!heightConstraint) {
+            [_footerView addConstraint:[NSLayoutConstraint constraintWithItem:_footerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:1 constant:CGRectGetHeight(_footerView.frame)]];
+        }else {
+            heightConstraint.constant = CGRectGetHeight(_footerView.frame);
+        }
     }
 }
 
 - (void)updatePageViews
 {
-    _horScrollView.frame = self.bounds;
-    
-    CGFloat viewWidth = CGRectGetWidth(self.frame);
-    CGFloat viewHight = CGRectGetHeight(self.frame);
-    CGFloat headerContentViewHieght = CGRectGetHeight(_headerContentView.frame);
-    CGFloat footerViewHieght = CGRectGetHeight(_footerView.frame);
-    
     NSInteger pageNum = [_dataSource numberOfPageViewOnSlidePageScrollView];
     NSMutableArray *scrollViewArray = [NSMutableArray arrayWithCapacity:pageNum];
     for (NSInteger index = 0; index < pageNum; ++index) {
         UIScrollView *pageVerScrollView = [_dataSource slidePageScrollView:self pageVerticalScrollViewForIndex:index];
-        pageVerScrollView.frame = CGRectMake(index * viewWidth, 0, viewWidth, viewHight);
-        pageVerScrollView.contentInset = UIEdgeInsetsMake(headerContentViewHieght, 0, footerViewHieght, 0);
-        pageVerScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(headerContentViewHieght, 0, footerViewHieght, 0);
         [_horScrollView addSubview:pageVerScrollView];
         [scrollViewArray addObject:pageVerScrollView];
     }
     
     _pageViewArray = [scrollViewArray copy];
-    _horScrollView.contentSize = CGSizeMake(viewWidth*pageNum, 0);
+}
+
+- (void)layoutPageViews
+{
+    _horScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_horScrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_horScrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_horScrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_horScrollView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+    
+    CGFloat footerViewHieght = CGRectGetHeight(_footerView.frame);
+    
+    __block UIScrollView *prePageView = nil;
+    for (UIScrollView *pageVerScrollView in _pageViewArray) {
+        pageVerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        if (prePageView) {
+            [_horScrollView addConstraint:[NSLayoutConstraint constraintWithItem:pageVerScrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:prePageView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+        }else {
+            [_horScrollView addConstraint:[NSLayoutConstraint constraintWithItem:pageVerScrollView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_horScrollView attribute:NSLayoutAttributeLeft multiplier:1 constant:0]];
+        }
+        prePageView = pageVerScrollView;
+
+        [_horScrollView addConstraint:[NSLayoutConstraint constraintWithItem:pageVerScrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_horScrollView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+        [_horScrollView addConstraint:[NSLayoutConstraint constraintWithItem:pageVerScrollView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_horScrollView attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+        [_horScrollView addConstraint:[NSLayoutConstraint constraintWithItem:pageVerScrollView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_horScrollView attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+        
+        pageVerScrollView.contentInset = UIEdgeInsetsMake(_headerContentViewHeight, 0, footerViewHieght, 0);
+        pageVerScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(_headerContentViewHeight, 0, footerViewHieght, 0);
+    };
+    [_horScrollView addConstraint:[NSLayoutConstraint constraintWithItem:_horScrollView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:prePageView attribute:NSLayoutAttributeRight multiplier:1 constant:0]];
+    _horScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.frame)*_pageViewArray.count, 0);
+
 }
 
 - (void)addPageViewKeyPathOffsetWithOldIndex:(NSInteger)oldIndex newIndex:(NSInteger)newIndex
@@ -217,22 +327,22 @@
     return scrollMinContentSizeHeight;
 }
 
-- (void)dealPageScrollViewMinContentSize:(UIScrollView *)pageScrollView
+- (void)dealPageScrollView:(UIScrollView *)pageScrollView minContentSizeHeight:(CGFloat)minContentSizeHeight
 {
-    NSInteger scrollMinContentSizeHeight = [self scrollViewMinContentSizeHeight];
-    pageScrollView.minContentSizeHeight = scrollMinContentSizeHeight;
+    pageScrollView.minContentSizeHeight = minContentSizeHeight;
     
-    if (pageScrollView.contentSize.height < scrollMinContentSizeHeight) {
-        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, scrollMinContentSizeHeight);
+    if (pageScrollView.contentSize.height < minContentSizeHeight) {
+        pageScrollView.contentSize = CGSizeMake(pageScrollView.contentSize.width, minContentSizeHeight);
     }
 }
 
 - (void)dealAllPageScrollViewMinContentSize
 {
+    NSInteger minContentSizeHeight = [self scrollViewMinContentSizeHeight];
     // 处理所有scrollView contentsize
-    [_pageViewArray enumerateObjectsUsingBlock:^(UIScrollView *obj, NSUInteger idx, BOOL *stop) {
-        [self dealPageScrollViewMinContentSize:obj];
-    }];
+    for (UIScrollView *pageView in _pageViewArray) {
+        [self dealPageScrollView:pageView minContentSizeHeight:minContentSizeHeight];
+    }
 }
 
 - (void)changeAllPageScrollViewOffsetY:(CGFloat)offsetY isOnTop:(BOOL)isOnTop
@@ -248,7 +358,7 @@
 {
     if (_curPageIndex >= 0 && _curPageIndex < _pageViewArray.count) {
         UIScrollView *pagescrollView = _pageViewArray[_curPageIndex];
-        pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -CGRectGetHeight(_headerContentView.frame));
+        pagescrollView.contentOffset = CGPointMake(pagescrollView.contentOffset.x, -_headerContentViewHeight);
     }
 }
 
@@ -262,9 +372,15 @@
     
     [self updateHeaderContentView];
     
+    [self layoutHeaderContentView];
+    
     [self updateFooterView];
     
+    [self layoutFooterView];
+    
     [self updatePageViews];
+    
+    [self layoutPageViews];
     
     [self addPageViewKeyPathOffsetWithOldIndex:-1 newIndex:_curPageIndex];
     
@@ -273,7 +389,7 @@
     [self resetPageScrollViewContentOffset];
 }
 
-- (void)scrollToPageIndex:(NSInteger)index nimated:(BOOL)animated
+- (void)scrollToPageIndex:(NSInteger)index animated:(BOOL)animated
 {
     if (index < 0 || index >= _pageViewArray.count) {
         NSLog(@"scrollToPageIndex index illegal");
@@ -281,7 +397,6 @@
     }
     
     [self pageScrollViewDidScroll:_pageViewArray[_curPageIndex] changeOtherPageViews:YES];
-    
     [_horScrollView setContentOffset:CGPointMake(index * CGRectGetWidth(_horScrollView.frame), 0) animated:animated];
 }
 
@@ -298,6 +413,37 @@
 - (NSInteger)indexOfPageScrollView:(UIScrollView *)pageScrollView
 {
     return [_pageViewArray indexOfObject:pageScrollView];
+}
+
+#pragma mark - hitTest
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <= 0.01) {
+        return nil;
+    }
+    
+    UIView *hitView = [super hitTest:point withEvent:event];
+    
+    if (hitView == _headerContentView) {
+        for (UIView *subview in [hitView.subviews reverseObjectEnumerator]) {
+            if (subview == _headerView
+                && [subview pointInside:point withEvent:event]) {
+                for (UIView *subSubview in [subview.subviews reverseObjectEnumerator]) {
+                    CGPoint convertedPoint = [subSubview convertPoint:point fromView:hitView];
+                    UIView *hitTestView = [subSubview hitTest:convertedPoint withEvent:event];
+                    if (hitTestView) {
+                        return hitTestView;
+                    }
+                }
+            }
+        }
+    }
+    
+    if ( _headerViewScrollEnable && (hitView == _headerContentView || (_headerView && hitView == _headerView) ||( _pageTabBar && hitView == _pageTabBar))) {
+        return [self pageScrollViewForIndex:_curPageIndex];
+    }
+    return hitView;
 }
 
 #pragma mark - delegate
@@ -346,8 +492,7 @@
     if (_delegateFlags.verticalScrollViewDidScroll) {
         [_delegate slidePageScrollView:self verticalScrollViewDidScroll:pageScrollView];
     }
-    
-    CGFloat headerContentViewheight = CGRectGetHeight(_headerContentView.frame);
+
     CGFloat pageTabBarHieght = CGRectGetHeight(_pageTabBar.frame);
     
     NSInteger pageTabBarIsStopOnTop = _pageTabBarStopOnTopHeight;
@@ -355,26 +500,28 @@
         pageTabBarIsStopOnTop = - pageTabBarHieght;
     }
     
-    CGFloat viewWidth = CGRectGetWidth(self.frame);
     CGFloat offsetY = pageScrollView.contentOffset.y;
-    if (offsetY <= -headerContentViewheight) {
+    if (offsetY <= -_headerContentViewHeight) {
         // headerContentView full show
-        CGRect frame = CGRectMake(0, 0, viewWidth, headerContentViewheight);
-        if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
-            _headerContentView.frame = frame;
-
+        if (_headerContentYConstraint.constant != 0) {
+            _headerContentYConstraint.constant = 0;
             if (_delegateFlags.pageTabBarScrollOffset) {
                 [_delegate slidePageScrollView:self pageTabBarScrollOffset:offsetY state:TYPageTabBarStateStopOnButtom];
             }
         }
+        if (_parallaxHeaderEffect) {
+            _headerContentHeightConstraint.constant = -offsetY;
+        }
         
         if (isNeedChange) {
-            [self changeAllPageScrollViewOffsetY:-headerContentViewheight isOnTop:NO];
+            [self changeAllPageScrollViewOffsetY:-_headerContentViewHeight isOnTop:NO];
         }
     }else if (offsetY < -pageTabBarHieght - pageTabBarIsStopOnTop) {
         // scroll headerContentView
-        CGRect frame = CGRectMake(0, -(offsetY+headerContentViewheight), viewWidth, headerContentViewheight);
-        _headerContentView.frame = frame;
+        if (_parallaxHeaderEffect && _headerContentHeightConstraint.constant != _headerContentViewHeight) {
+            _headerContentHeightConstraint.constant = _headerContentViewHeight;
+        }
+        _headerContentYConstraint.constant = -(offsetY+_headerContentViewHeight);
         
         if (_delegateFlags.pageTabBarScrollOffset) {
             [_delegate slidePageScrollView:self pageTabBarScrollOffset:offsetY state:TYPageTabBarStateScrolling];
@@ -386,9 +533,12 @@
         
     }else {
         // pageTabBar on the top
-        CGRect frame = CGRectMake(0, -headerContentViewheight+pageTabBarHieght + pageTabBarIsStopOnTop, viewWidth, headerContentViewheight);
-        if (!CGRectEqualToRect(_headerContentView.frame, frame)) {
-            _headerContentView.frame = frame;
+        if (_parallaxHeaderEffect && _headerContentHeightConstraint.constant != _headerContentViewHeight) {
+            _headerContentHeightConstraint.constant = _headerContentViewHeight;
+        }
+        
+        if (_headerContentYConstraint.constant != -_headerContentViewHeight+pageTabBarHieght + pageTabBarIsStopOnTop) {
+            _headerContentYConstraint.constant = -_headerContentViewHeight+pageTabBarHieght + pageTabBarIsStopOnTop;
 
             if (_delegateFlags.pageTabBarScrollOffset) {
                 [_delegate slidePageScrollView:self pageTabBarScrollOffset:offsetY state:TYPageTabBarStateStopOnTop];
@@ -410,12 +560,14 @@
 
 - (void)basePageTabBar:(TYBasePageTabBar *)basePageTabBar clickedPageTabBarAtIndex:(NSInteger)index
 {
-    [self scrollToPageIndex:index nimated:NO];
+    [self scrollToPageIndex:index animated:NO];
 }
 
 -(void)dealloc
 {
-    [self resetPropertys];
+    //[self resetPropertys];
+    [self addPageViewKeyPathOffsetWithOldIndex:_curPageIndex newIndex:-1];
+    NSLog(@"TYSlidePageScrollView dealloc");
 }
 
 @end

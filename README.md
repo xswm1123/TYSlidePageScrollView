@@ -1,6 +1,16 @@
 # TYSlidePageScrollView
-An easy solution to page views or controllers with header and page tabbar,footer
 
+(Deprecated) 已废弃 你可以看看[TYPagerController](https://github.com/12207480/TYPagerController)
+
+ An easy solution to page views or controllers with header and page tabbar,footer<br>
+带header,footer,滑动菜单的，分页滑动的TYSlidePageScrollView
+
+add and support auto layout ,and support InterfaceOrientation<br>
+添加并且支持自动布局，以及屏幕旋转
+
+add parallaxHeaderEffect (BOOL parallaxHeaderEffect) default NO <br>
+set PanGesture can drag header vertical scroll(BOOL headerContentViewPanGestureEnabe) default NO <br>
+添加弹性视差效果，优化 header 垂直滑动
 ## ScreenShot
 
 ![image](https://github.com/12207480/TYSlidePageScrollView/blob/master/screenshot/slidePageViewDemo.gif)
@@ -23,13 +33,16 @@ TYSlidePageScrollView *slidePageScrollView = [[TYSlidePageScrollView alloc]initW
 ```
 * **or use TYSlidePageScrollViewController**
 
-customViewController inherit TYSlidePageScrollViewController
+customViewController inherit TYSlidePageScrollViewController<br>
+**the viewController should conform to UIViewControllerDisplayViewDelegate**
+
 ```objc
 // on customViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // the viewController need conform to UIViewControllerDisplayViewDelegate
     self.viewControllers = @[/*viewControllers*/];
     
     // custom method
@@ -57,7 +70,29 @@ customViewController inherit TYSlidePageScrollViewController
 
 @end
 ```
+* **set default page index**
+```objc
+// if you want to set default page index ,you can do it on this method
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self.slidePageScrollView scrollToPageIndex:/*default index*/ animated:NO];
+}
+
+```
 On demo,it have more example and usage.
+
+## Protocol
+
+```objc
+@protocol UIViewControllerDisplayViewDelegate <NSObject>
+
+// you should implement the method, because I don't know the view you want to display
+// the view need inherit UIScrollView (UITableview inherit it) ,also vertical scroll 
+- (UIScrollView *)displayView;
+
+@end
+```
 
 ## Delegate
 
@@ -101,4 +136,3 @@ On demo,it have more example and usage.
 
 ### Contact
 if you find bug，please pull reqeust me <br>
-if you have good idea，contact me, Email:122074809@qq.com
